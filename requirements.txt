@@ -3,3 +3,4 @@ psycopg2-binary
 datetime
 sqlalchemy
 pandas
+flask_bcrypt

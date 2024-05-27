@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <p>План поездки</p>
+    <div class="trip_calendar">
+        <table class="calendar">
+            {% for i in range(direction) %}
+                {% if i%3 ==0 %}
+                    <script>
+                        tr = document.createElement('tr')
+                        document.querySelector('calendar').append(document.createElement('tr'))
+                    </script>
+
+
+        </table>
+    </div>
+    <div class="cal_elem">
+        <span class="day_month">{{ day }}</span>
+        <span class="month">{{ month }}</span>
+        <span class="day_week"></span>
+        <img src="#" class="logo">
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lk.css')}}">
+</head>
+<body>
+<div class="lk">
+    {% if number_trips > 0 %}
+        <p class="title">Сохраненные поездки</p>
+    <div class="trip_list">
+        {% for item in trips %}
+        <div class="trip">
+            {% if item[0]['base_params']['trip_name'] == ''  %}
+            <p class="trip_name" name="name_trip">Название у поездки отсутствует</p>
+            {% else %}
+            <p class="trip_name" name="name_trip">Название: {{ item[0]['base_params']['trip_name']  }}</p>
+            {% endif %}
+            <p class="location">Место назначения: {{ item[0]['base_params']['location']  }}</p>
+            <p class="date">Период поездки: {{ item[0]['base_params']['dates'] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="footer_lk">
+    <p>Нет запланированных поездок</p>
+    {% endif %}
+    <form action="/new_trip" id="form_lk" method="post">
+        <button class="btn_lk" type="submit">Создать поездку</button>
+    </form>
+    <form action="/load_trip" id="load_trip" method="post">
+        <input type="text" class="data" name="params_trip" style="display: none">
+        <button class="load" type="submit">Создать поездку</button>
+    </form>
+        </div>
+
+<script>
+    document.querySelectorAll('.trip').forEach((trip) => {
+        trip.addEventListener('click', (event) => {
+            let t = event.currentTarget
+            text = `{"trip_name": "${t.querySelector('.trip_name').textContent}", "location":"${t.querySelector('.location').textContent}", "dates": "${t.querySelector('.date').textContent}"}`
+            document.querySelector('.data').value = text
+            document.querySelector('.load').click()
+        } )
+    })
+</script>
+
+
+</div>
+
+</body>
+</html>

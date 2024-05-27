@@ -1,0 +1,6 @@
+{% block new_item %}
+    <div class="list_item new_item">
+        <img src="{{ url_for('static', filename='css/plus.png') }}" alt="+">
+        <input type="text" class="text_new_item"  onchange="create_item(this.parentElement, this.value)" placeholder="Новый элемент">
+    </div>
+{% endblock %}

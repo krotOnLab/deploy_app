@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Trip_saved</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles_trip.css')}}">
+</head>
+<body>
+<div class="trip_list"  id="trip_list">
+    <div class="list">
+
+        <script>
+            function create_item(elem, value_item) {
+                let maindiv = document.createElement('div');
+                maindiv.setAttribute('class', 'inline_settings list_item');
+                elem.before(maindiv);
+                maindiv.innerHTML = `<label class="check_list_item_label"><input type="checkbox" class="check_list_item"><span>${value_item}</span></label>
+                                       {% include 'trip_list_btns.html' %}`;
+                let input = elem.getElementsByClassName('text_new_item')[0];
+                input.value = '';
+                input.blur();
+                maindiv.querySelector('.check_list_item_label').lastElementChild.addEventListener('click', (event) => event_click_list_item(event));
+            }
+        </script>
+        <script>
+            function create_category(input) {
+                let count = document.querySelector('.user_categories').querySelectorAll('.list_title').length + 1
+                let new_category = `<div class="p_title_section title_show">
+                <p class="title list_title user_category_${count} title_show">${input.value}</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="user_category_${count} section">
+                {% include 'new_item_in_trip_list.html' %}
+            </div>`
+                document.querySelector('.new_category_input').insertAdjacentHTML('beforebegin', new_category)
+                input.value = '';
+                input.blur();
+                document.querySelector('.user_categories').querySelector('.list_title:last-of-type').addEventListener('click', (event) => toggle_list_items(event))
+            }
+        </script>
+
+
+
+
+
+        {% macro tools() %}
+            <div class="div_tools">
+                <button class="tools edit_btn" onclick="edit_element(this.parentElement.parentElement)">Изменить</button>
+                <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+            </div>
+            <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+        {% endmacro %}
+
+        {% macro btns(number) %}
+            <div class="btns_count">
+                <button class="btn+ count"  name="plus" onclick="count_items(this.parentElement.parentElement, '+')">+</button>
+                {% if number != 0 %}
+                <span name="number" class="number count" oninput="check_count_items(this)">{{ number }}</span>
+                {% else %}
+                <span name="number" class="number count hide" oninput="check_count_items(this)">{{ number + 1 }}</span>
+                {% endif %}
+                <button name="minus" class="btn- count" onclick="count_items(this.parentElement.parentElement, '-')">-</button>
+            </div>
+            <button class="btn_list_item" onclick="count_btns_trip_list(this)"></button>
+             {{ tools() }}
+        {% endmacro %}
+
+        {% macro list_item_macro(name, status, number ) %}
+            <div class="list_item">
+            {% if status == 'True' %}
+                <label class="check_list_item_label"><input type="checkbox" class="check_list_item del_element_label" ><span>{{ name }}</span></label>
+            {% else %}
+                <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>{{ name }}</span></label>
+            {% endif %}
+                {{ btns(number) }}
+            </div>
+        {% endmacro %}
+
+        {% macro new_item() %}
+            <div class="list_item new_item">
+                <img src="{{ url_for('static', filename='css/plus.png') }}" alt="+">
+                <input type="text" class="text_new_item"  onchange="create_item(this.parentElement, this.value)" placeholder="Новый элемент">
+            </div>
+        {% endmacro %}
+
+        {% for chapter, chapter_data in data_trip.items() %}
+        <div class="{{ chapter }} chapter">
+            {% for name, data_section in chapter_data.items() %}
+                {% if data_section['status'] == False %}
+                    <div class="p_title_section title_hide">
+                {% else %}
+                    <div class="p_title_section title_show">
+                {% endif %}
+                        <p class="title list_title {{ data_section['name_en'] }}">{{ data_section['name_ru'] }}</p>
+                        {{ tools() }}
+                    </div>
+                    <div class="{{ data_section['name_en'] }} section" >
+                {% for list_item in data_section['data'] %}
+                        {{ list_item_macro(list_item['name'], list_item['name_status'], list_item['number']) }}
+                {% endfor %}
+                {{ new_item() }}
+                    </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+         <div class="user_categories chapter">
+            <p class="title">Пользовательские категории</p>
+            <input type="text" class="new_category_input text_new_item" placeholder="Новая категория" onchange="create_category(this)">
+
+         </div>
+
+
+{#    <script>#}
+{#                let data = document.getElementById('service').innerHTML.split(',')#}
+{#                let list_titles = Array.from(document.getElementById('trip_list').querySelectorAll('.p_title_section'));#}
+{#                let mas_titles = [];#}
+{#                list_titles.forEach((element) => {#}
+{#                    mas_titles.push([element.firstElementChild.classList[2], list_titles.indexOf(element)])#}
+{#                });#}
+{#                console.log(mas_titles)#}
+{#                let map_titles = new Map(mas_titles);#}
+{#                console.log(map_titles)#}
+{#                data.forEach(el =>{#}
+{#                    list_titles[map_titles.get(el)].classList.toggle('title_show', true);#}
+{#                    list_titles[map_titles.get(el)].classList.toggle('title_hide', false);#}
+{#                });#}
+{#    </script>#}
+        <script>
+                let ps = document.querySelectorAll('p.list_title');
+                console.log(ps)
+                ps.forEach((p) =>{
+                    p.addEventListener('click', (event) => toggle_list_items(event))
+                });
+        </script>
+        <script>
+            document.querySelectorAll('.check_list_item_label').forEach((label) => {
+                label.lastElementChild.addEventListener('click', (event) => event_click_list_item(event))
+            })
+        </script>
+
+
+        {% include 'calendar_v2.html' %}
+        <div class="list_and_calendar">
+            <button class="pages disable_button" disabled id="list">
+                Список
+            </button>
+            <button class="pages" id="calendar">
+                Календарь поездки
+            </button>
+            <button class="save" id="save" onclick="save_data()">
+                Сохранить
+            </button>
+        </div>
+        <script>
+            btns = document.querySelectorAll('.pages')
+            btns.forEach((btn) => {
+                btn.addEventListener('click', (e) =>{
+                    if (e.currentTarget.classList.contains('disable_button')==false){
+                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
+                        neighbour.classList.toggle('disable_button', false)
+                        neighbour.disabled = false
+                        e.currentTarget.classList.toggle('disable_button', true)
+                        e.currentTarget.disabled = true
+                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
+                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
+                    }
+                })
+            })
+        </script>
+
+{#        <script>#}
+{#            document.querySelectorAll('.actions').forEach((btn_actions) => {#}
+{#                btn_actions.addEventListener('click', (event) => card_actions(event))#}
+{#            })#}
+{#        </script>#}
+{#        <script>#}
+{#            document.querySelector('.create_action').addEventListener('change', (btn_create_action) =>{#}
+{#                inserted_elem = ` <div class="action">#}
+{#                    <input type="text" class="action_name input_action">#}
+{#                    <input type="time" class="time_start input_action"><input type="time" class="time_end input_action">#}
+{#                    <button class="delete_action" onclick='delete_elem(this.parentElement)'><img src='/static/css/delete.png'></button>#}
+{#                </div>`#}
+{#                body_action = btn_create_action.currentTarget.previousElementSibling#}
+{#                body_action.insertAdjacentHTML('beforeend', inserted_elem)#}
+{#                body_action.lastElementChild.querySelector('.action_name').value = btn_create_action.currentTarget.value#}
+{#                btn_create_action.currentTarget.value = ''#}
+{#                btn_create_action.currentTarget.blur();#}
+{#                save_data_to_card()#}
+{#                body_action.lastElementChild.querySelectorAll('input').forEach((input) => {#}
+{#                    input.addEventListener('input', () => save_data_to_card())#}
+{#                })#}
+{#                body_action.lastElementChild.querySelector('.delete_action').addEventListener('click', () => save_data_to_card())#}
+{#            })#}
+{#        </script>#}
+
+
+
+
+
+        <script>
+            document.querySelectorAll('.check_list_item_label').forEach((label) => {
+                span = label.lastElementChild
+                item = span.parentElement.parentElement
+                if (span.classList.contains('del_element_label') === true){
+                        item.parentElement.lastElementChild.before(item)}
+            })
+        </script>
+        <script>
+                let ps = document.querySelectorAll('p.list_title');
+                console.log(ps)
+                ps.forEach((p) =>{
+                    p.addEventListener('click', function(event){
+                        let elem = event.currentTarget.nextElementSibling;
+                        if (elem.classList.contains('list_item_ani_show') == true){
+                        elem.classList.toggle('list_item_ani_show', false);
+                        elem.classList.toggle('list_item_ani_hide', true);
+                        }
+                        else if (elem.classList.contains('list_item_ani_hide') == true ){
+                            elem.classList.toggle('list_item_ani_show', true);
+                            elem.classList.toggle('list_item_ani_hide', false);
+                        }
+                        else if (elem.classList.contains('list_item_ani_show')==false) {
+                            elem.classList.toggle('list_item_ani_show', true);
+                        }
+                    })
+                });
+            </script>
+{#        <script>#}
+{#            document.querySelectorAll('.check_list_item_label').forEach((label) => {#}
+{#                label.lastElementChild.addEventListener('click', (event) => {#}
+{#                    event.stopPropagation()#}
+{#                    span = event.currentTarget#}
+{#                    item = span.parentElement.parentElement#}
+{#                    if (span.classList.contains('del_element_label') === true){#}
+{#                        span.classList.toggle('del_element_label', false);#}
+{#                        item.parentElement.prepend(item);#}
+{#                    } else{#}
+{#                        span.classList.toggle('del_element_label', true);#}
+{#                        item.parentElement.lastElementChild.before(item);#}
+{#                    }#}
+{#                })#}
+{#            })#}
+{#        </script>#}
+
+
+        </div>
+        {% include 'calendar_load_data_from_DB.html' %}
+        <div class="list_and_calendar">
+            <button class="pages disable_button" disabled id="list">
+                Список
+            </button>
+            <button class="pages" id="calendar">
+                Календарь поездки
+            </button>
+            <button class="save" id="save" onclick="save_data()">
+                Сохранить
+            </button>
+        </div>
+{#        <script>#}
+{#            btns = document.querySelectorAll('.pages')#}
+{#            btns.forEach((btn) => {#}
+{#                btn.addEventListener('click', (e) =>{#}
+{#                    if (e.currentTarget.classList.contains('disable_button')==false){#}
+{#                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')#}
+{#                        neighbour.classList.toggle('disable_button', false)#}
+{#                        neighbour.disabled = false#}
+{##}
+{#                        e.currentTarget.classList.toggle('disable_button', true)#}
+{#                        e.currentTarget.disabled = true#}
+{##}
+{#                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'#}
+{##}
+{#                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'#}
+{#                    }#}
+{#                })#}
+{#            })#}
+{#        </script>#}
+
+
+
+
+
+        <script>
+            document.querySelectorAll('.actions').forEach((btn) => {
+                btn.addEventListener('click', (button) => card_actions(button), {capture:false, passive:true})
+            })
+        </script>
+        <script>
+            document.querySelector('.create_action').addEventListener('change', (btn_create_action) =>{
+                inserted_elem = ` <div class="action">
+                    <input type="text" class="action_name input_action">
+                    <input type="time" class="time_start input_action"><input type="time" class="time_end input_action">
+                    <button class="delete_action" onclick='delete_elem(this.parentElement)'><img src='/static/css/delete.png'></button>
+                </div>`
+                body_action = btn_create_action.currentTarget.previousElementSibling
+                body_action.insertAdjacentHTML('beforeend', inserted_elem)
+                body_action.lastElementChild.querySelector('.action_name').value = btn_create_action.currentTarget.value
+                btn_create_action.currentTarget.value = ''
+                btn_create_action.currentTarget.blur()
+            })
+        </script>
+
+    </div>
+
+</div>
+
+
+
+<div class="modalBackground">
+    <div id="modal_window_edit">
+        <p class="old_name"></p>
+        <input type="text" class="new_name" placeholder="Новое название">
+        <div>
+            <button class="cancel" onclick="cancel()">Отменить</button>
+            <button class="confirm" onclick="confirm()">Подтвердить</button>
+        </div>
+        <div style="display:none" class="save_adress"></div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/trip.js') }}"></script>
+
+<form action="/save_trip" method="post" class="save_data_trip">
+    <input type="text" id="trip_data" name="trip_data">
+    <input type="text" id="calendar_data" name="calendar_data">
+    <input type="submit" id="submit_data_trip">
+</form>
+
+
+
+<script src="{{ url_for('static', filename='js/trip.js') }}"></script>
+
+
+
+
+</body>
+</html>

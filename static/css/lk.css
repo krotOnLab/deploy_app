@@ -1,0 +1,110 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body {
+    height: 100%;
+    background-color: #E6E2DD;
+    font-size: 30px;
+    width: 100%;
+    overflow-y: auto;
+    /*position: absolute;*/
+    /*overflow-x: hidden;*/
+}
+.lk{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.trip_list{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: inherit;
+}
+#form_lk{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.trip{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    border: black 2px solid;
+    border-radius: 1em;
+    margin: 0.5em 0;
+    padding: 1em;
+    box-shadow: 0.3em 0.2em 0.2em #8f8f8f;
+    font-size: 1.1em;
+    background-color: #D48166;
+}
+.trip > p{
+    margin: 0.2em 0;
+    color: #343939;
+}
+.title{
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+    font-size: 1.4em;
+    font-weight: bolder;
+}
+.btn_lk{
+    width: 60%;
+    margin: 2em 0;
+    padding: 1em;
+    font-size: 1.2em;
+    background-color: #373A36;
+    border-radius: 0.5em;
+    color: white;
+}
+.load{
+    display: none;
+}
+.footer_lk{
+    width: 100%;
+    text-align: center;
+    margin-top: 9em;
+}
+.footer_lk>p{
+    font-size: 1.7em;
+}
+
+
+
+
+/*.calendar {*/
+/*    max-width: 300px;*/
+/*    margin: 0 auto;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.calendar-header {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.calendar-days {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*.day {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    line-height: 40px;*/
+/*    border: 1px solid #ccc;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.prev-month {*/
+/*    color: lightgray;*/
+/*}*/
+
+/*.selected {*/
+/*    background-color: lightblue;*/
+/*}*/

@@ -1,0 +1,92 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body {
+    height: 100%;
+    background-color: #E6E2DD;
+    font-size: 30px;
+}
+p{
+    font-size: 40pt;
+    font-family: Arial;
+}
+.wrapper {
+	display: flex;
+    flex-wrap: wrap;
+	min-height: 100%;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    overflow: auto;
+    height: 100%;
+}
+.check_type{
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.checked{
+    background-image: url(yes.png);
+}
+#settings_trip_list{
+    display: flex;
+    opacity: 0;
+    animation: ani 2.5s forwards;
+}
+@keyframes ani {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.settings_block{
+    width: 100%;
+    position: relative;
+    margin-top: 20px;
+    border: none;
+}
+.table_settings{
+    border: none;
+    margin-top: 0.75em;
+}
+.button_trip{
+    width: 7em;
+    height: 6em;
+    border-radius: 1em;
+    background-color: #D48166;
+    color: white;
+    position: relative;
+    font-size: 1em;
+}
+table, tr {
+    width: 100%;
+    border: none;
+}
+tr{
+    display: flex;
+    justify-content: center;
+}
+th{
+    margin: 0.5em;
+}
+.title{
+    text-align: center;
+    margin-top: 1em;
+}
+#create_trip{
+    height: fit-content;
+    border: none;
+    border-radius: 0.7em;
+    background-color: #373A36;
+    color: white;
+    width: 100%;
+    padding: 1em 2em;
+    margin: 1em 0;
+    font-size: 1.6em;
+}

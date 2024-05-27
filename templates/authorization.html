@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+
+
+<div id="authorization">
+    <form action="/submit_auth" method="post" id="form_auth">
+
+        <label for="username" class="label_auth">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required class="input_auth">
+
+        <label for="password" class="label_auth">Пароль:</label>
+        <input type="password" id="password" name="password" required class="input_auth">
+
+        <input type="submit" value="Войти" class="input_auth">
+    </form>
+    {% if answer==False %}
+    <p>Вы ввели неправильный логин и/или пароль. Повторите попытку</p>
+    {% endif %}
+</div>
+<p id="service" style="visibility: hidden">{{ answer }}</p>
+
+<script>
+        console.log(document.querySelector('#service').innerHTML);
+        if (document.querySelector('#service').innerHTML == 'false'){
+            document.querySelector('#username').value = '';
+            document.querySelector('#password').value = '';}
+</script>
+
+</body>
+</html>

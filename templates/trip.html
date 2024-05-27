@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Trip</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles_trip.css')}}">
+</head>
+<body>
+<div class="trip_list"  id="trip_list">
+    <div class="list">
+        <div class="accommodation chapter">
+
+                <div class="p_title_section title_hide">
+                    <p class="title list_title hotel">Отель</p>
+                     <div class="div_tools">
+                        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                    </div>
+                    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+                </div>
+                <div class="hotel section" >
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Проверить снижение цен на существующие бронирование отеля</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Бронирование номера</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    {% include 'new_item_in_trip_list.html' %}
+                </div>
+
+                <div class="p_title_section title_hide">
+                    <p class="title list_title rental">Аренда</p>
+                     <div class="div_tools">
+                        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                    </div>
+                    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+                </div>
+                <div class="rental section">
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Снять квартиру|дом|комнату</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    {% include 'new_item_in_trip_list.html' %}
+                </div>
+
+                <div class="p_title_section title_hide">
+                    <p class="title list_title family_fr">Родственники|Друзья</p>
+                     <div class="div_tools">
+                        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                    </div>
+                    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+                </div>
+                <div class="family_fr section">
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Позвонить родственникам</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подарок</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    {% include 'new_item_in_trip_list.html' %}
+                </div>
+
+                <div class="p_title_section title_hide">
+                    <p class="title list_title second_home">Второй дом</p>
+                     <div class="div_tools">
+                        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                    </div>
+                    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+                </div>
+                <div class="second_home section">
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ключи от квартиры|дома</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    {% include 'new_item_in_trip_list.html' %}
+                </div>
+
+                <div class="p_title_section title_hide">
+                    <p class="title list_title camping">Кемпинг</p>
+                     <div class="div_tools">
+                        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                    </div>
+                    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+                </div>
+                <div class="camping section">
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фонарик</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Налобный фонарь</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item"><span>Зажигалка|Спички</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подушка</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пластиковые пакеты</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спальный мешок</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Туристический коврик</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Снеки</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Тент</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Туалетная бумага</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Миска - Ложка - Кружка</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Полотенце</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    <div class="list_item">
+                        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Универсальный нож</span></label>
+                        {% include 'trip_list_btns.html' %}
+                    </div>
+                    {% include 'new_item_in_trip_list.html' %}
+                </div>
+
+        </div>
+        <div class="transportation chapter">
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title airplane">Самолет</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="airplane section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Посадочный билет</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Маска для сна</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Наушники|Беруши</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Паспорт</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подушка под шею</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title car">Машина</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="car section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ключи от машины</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Документы на машину</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Водительской удостоверение</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское автокресло</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title train">Поезд</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="train section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Билет на поезд</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Книга|Сканворды|Игры</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title bus">Автобус</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="bus section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Таблетки, если укачивает</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+        </div>
+        <div class="items chapter">
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title essentials">Предметы первой нуждаемости</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="essentials section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Презервативы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Таблетки от головной боли</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ключи от дома</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Необходимые медикаменты</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Повербанк</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Распечатанный маршрут поездки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Очки для чтения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Смартфон</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зарядка для телефона</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зонт</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Витамины</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кошелек</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Часы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title toiletries">Личная гигиена</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="toiletries section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пластыри</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зубная щетка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зубная паста</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Расческа для волос</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Дезодорант</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Бритва|Триммер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Гель для бритья</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Контактные линзы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Раствор для контактных линз</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Косметика</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пинцет</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Щипчика|Ножницы для ногтей</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Духи</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Одеколон</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шампунь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Гель для душа</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фен</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Средства для волос</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title international">Путешествие за границу</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="international section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Паспорт</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Виза</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Справки о привиках</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Страховой медицинский полис</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Иностранная валюта</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Адаптер питания</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Преобразователь напряжения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Индикатор напряжения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ручка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title clothes">Одежда</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="clothes section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Повседневные брюки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Повседневная рубашка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Футболка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Носки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Нижнее белье</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пижама</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ремень</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Свитер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Обувь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Блузка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Юбка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Платье</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Колготки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Куртка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title formal_clothes">Официально-деловая одежда</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="formal_clothes section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пиджак</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рубашка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Брюки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Туфли</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Наручные часы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Юбки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Платья</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ювелирные украшения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Чулки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+        </div>
+        <div class="activities chapter">
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title work">Работа</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="work section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ноутбук</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зарядка для ноутбука</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рабочий телефон</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зарядка для рабочего телефона</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Визитка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Брелок VPN</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рабочее удостоверение</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title beach">Пляж</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="beach section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Купальник|Плавки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Солнцезащитные очки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Солнцезащитный крем</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Панамка|Кепка|Шляпка|Бандана</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Сандали|Шлепки|Сланцы|Легкие босоножки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пляжное полотенце</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пляжная сумка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Набор для постройки замка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title swimming">Плавание</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="swimming section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Очки для дайвинга</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Надувной матрас|Круг</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Нарукавники|Жилет для плавния</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Name</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title dinner">Ужин</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="dinner section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рубашка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пиджак</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Брюки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Платье</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Блузка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кардиган</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Туфли</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Крем для обуви</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ювелирные украшения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фен</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Средства для волос</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Колготки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title run">Бег</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="run section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кроссовки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Беговые носки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Беговой костюм</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Беговая футболка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title cycling">Велотуризм</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="cycling section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Велотуфли</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шлем</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Велошорты</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Велорубашка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Велосипедный фонарь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ремонтный набор</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Насос</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Запасная велосипелная камера</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title hiking">Хайкинг</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="hiking section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рюкзак</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Бинокль</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спрей от насекомых</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Аптечка первой помощи</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Хайкинговая обувь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фляга|Бутылка воды</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>GPS-навигатор</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Компас</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Солнцезащитный крем</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Панамка|Кепка|Шляпка|Бандана</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Футболка (нехлопковая)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Штаны (нехлопковые)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Носки (нехлопковые)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title snow_sport">Зимний спорт</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="snow_sport section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зимняя куртка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зимние штаны</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зимняя шапка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зимние перчатки|Варежки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Гигиеническая помада</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Увлажнитель для кожи</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кальсоны</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Лонгслив</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зимние ботинки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Горнолыжные очки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Прокат зимнего снаряжения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title tourism">Туризм</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="tourism section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Палатка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спальный мешок</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Туристический коврик</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Миска - Ложка - Кружка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Универсальный нож</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фонарик</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Налобный фонарь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зажигалка|Спички</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подушка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Аптечка первой помощи</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Футболка (нехлопковая)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Штаны (нехлопковые)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Носки (нехлопковые)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фляга|Бутылка воды</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>GPS-навигатор</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Компас</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кальсоны</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спрей от насекомых</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Полотенце</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Походная пища</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Снеки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Клещедер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title gym">Спортивный зал</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="gym section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивная обувь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивные носки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивная футболка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивные штаны|шорты</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивный бюстгальтер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Спортивное полотенце</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Фляга|Бутылка воды</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Музыкальные плеер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Наушники</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Навесной замок</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title photography">Фотография</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="photography section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Камера</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Штатив</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Карты памяти</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Монопод</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Аккуляторы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зарядное устройство для камеры</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Зарядное устройство для аккумуляторов</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Сумка для камеры</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Объективы и линзы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title motocycle">Мотоцикл</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="motorcycle section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шлем</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Беруши</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Набор инструментов</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Водонепронициемый чехол</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Дождевик</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>GPS-навигатор</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>GPS-трекер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Сумка для вещей|Рюкзак</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мотоциклетная куртка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мотоциклетные штаны</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мотоциклетные ботинки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мотоциклетные перчатки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+        </div>
+        <div class="family chapter">
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title to_do_list">Список дел</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="to_do_list section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Забронировать место проживания</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Купить билеты на транспорт туда/обратно</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Закрыть все окна</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Перекрыть воду</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Перекрыть газ</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Отключите электрические приборы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Вынести мусор</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Полить растения</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Уменьшить температуру термостата</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+            <div class="p_title_section title_hide">
+                <p class="title list_title baby">Ребенок</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="baby section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Свидетельство о рождении|Паспорт</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Соски и детские бутылочки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское автокресло</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Эргорюкзак (переноска)</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детский лосьон</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское обезболивающее</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детская одежда</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское питание</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское мыло</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детская обувь</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детские носочки|Колготки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детский солнцезащитный крем</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детские салфетки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское одеяло</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Молокоотсос</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детская коляска</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Коврик для пеленания</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подгузник</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Сумка для подгузников</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Антисептик для рук</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Медицинская книжка на ребенка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Надувная детская ванночка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ночник</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мягкая игрушка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Салфетки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Игрушки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Вода и/или сок</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {% include 'new_item_in_trip_list.html' %}
+            </div>
+
+        </div>
+        <div class="user_categories chapter">
+            <p class="title">Пользовательские категории</p>
+            <input type="text" class="new_category_input text_new_item" placeholder="Новая категория" onchange="create_category(this)">
+
+
+
+
+{#            <div class="p_title_section">#}
+{#                <p class="title list_title user_category_${count} title_show">${input.value}</p>#}
+{#                 <div class="div_tools">#}
+{#                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>#}
+{#                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>#}
+{#                </div>#}
+{#                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>#}
+{#            </div>#}
+{#            <div class="user_category_${count} section">#}
+{#                {% include 'new_item_in_trip_list.html' %}#}
+{#            </div>#}
+
+
+
+
+
+        </div>
+        <script>
+            function create_item(elem, value_item) {
+                let maindiv = document.createElement('div');
+                maindiv.setAttribute('class', 'inline_settings list_item');
+                elem.before(maindiv);
+                maindiv.innerHTML = `<label class="check_list_item_label"><input type="checkbox" class="check_list_item"><span>${value_item}</span></label>
+                                       {% include 'trip_list_btns.html' %}`;
+                let input = elem.getElementsByClassName('text_new_item')[0];
+                input.value = '';
+                input.blur();
+                maindiv.querySelector('.check_list_item_label').lastElementChild.addEventListener('click', (event) => event_click_list_item(event));
+            }
+        </script>
+        <script>
+            function create_category(input) {
+                let count = document.querySelector('.user_categories').querySelectorAll('.list_title').length + 1
+                let new_category = `<div class="p_title_section title_show">
+                <p class="title list_title user_category_${count} title_show">${input.value}</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="user_category_${count} section">
+                {% include 'new_item_in_trip_list.html' %}
+            </div>`
+                document.querySelector('.new_category_input').insertAdjacentHTML('beforebegin', new_category)
+                input.value = '';
+                input.blur();
+                {#console.log(document.querySelector('.user_categories').querySelector('.list_title:last-of-type'))#}
+                {#console.log(document.querySelector('.user_categories').querySelectorAll('.p_title_section'))#}
+                let titles = document.querySelector('.user_categories').querySelectorAll('.list_title')
+                titles[titles.length-1].addEventListener('click', (event) => toggle_list_items(event))
+                {#console.log([document.querySelector('.user_categories').querySelectorAll('.p_title_section').length-1])#}
+                {#document.querySelector('.user_categories').querySelector('.list_title:last-of-type').addEventListener('click', (event) => toggle_list_items(event))#}
+            }
+        </script>
+
+
+
+        <span id="service" style="display: none">{{ data }}</span>
+        <script>
+                let data = document.getElementById('service').innerHTML.split(',')
+                let list_titles = Array.from(document.getElementById('trip_list').querySelectorAll('.p_title_section'));
+                let mas_titles = [];
+                list_titles.forEach((element) => {
+                    mas_titles.push([element.firstElementChild.classList[2], list_titles.indexOf(element)])
+                });
+                console.log(mas_titles)
+                let map_titles = new Map(mas_titles);
+                console.log(map_titles)
+                data.forEach(el =>{
+                    list_titles[map_titles.get(el)].classList.toggle('title_show', true);
+                    list_titles[map_titles.get(el)].classList.toggle('title_hide', false);
+                });
+        </script>
+        <script>
+                let ps = document.querySelectorAll('p.list_title');
+                console.log(ps)
+                ps.forEach((p) =>{
+                    p.addEventListener('click', (event) => toggle_list_items(event))
+                });
+        </script>
+
+{#        <script>#}
+{#                let data = document.getElementById('service').innerHTML.split(',')#}
+{#                let list_p = Array.from(document.getElementById('trip_list').getElementsByTagName('p'));#}
+{#                let mas_p = [];#}
+{#                list_p.forEach(element => mas_p.push([element.classList[2], element]));#}
+{#                let map_p = new Map(mas_p);#}
+{#                data.forEach(el =>{#}
+{#                    map_p.get(el).classList.toggle('title_show', true);#}
+{#                });#}
+{#        </script>#}
+
+
+        <script>
+            document.querySelectorAll('.check_list_item_label').forEach((label) => {
+                label.lastElementChild.addEventListener('click', (event) => event_click_list_item(event))
+            })
+        </script>
+
+        </div>
+        {% include 'calendar_v2.html' %}
+        <div class="list_and_calendar">
+            <button class="pages disable_button" disabled id="list">
+                Список
+            </button>
+            <button class="pages" id="calendar">
+                Календарь поездки
+            </button>
+            <button class="save" id="save" onclick="save_data()">
+                Сохранить
+            </button>
+        </div>
+        <script>
+            btns = document.querySelectorAll('.pages')
+            btns.forEach((btn) => {
+                btn.addEventListener('click', (e) =>{
+                    if (e.currentTarget.classList.contains('disable_button')===false){
+                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
+                        neighbour.classList.toggle('disable_button', false)
+                        neighbour.disabled = false
+                        e.currentTarget.classList.toggle('disable_button', true)
+                        e.currentTarget.disabled = true
+                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
+                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
+                    }
+                })
+            })
+        </script>
+
+        <script>
+            document.querySelectorAll('.actions').forEach((btn_actions) => {
+                btn_actions.addEventListener('click', (event) => card_actions(event))
+            })
+        </script>
+        <script>
+            document.querySelector('.create_action').addEventListener('change', (btn_create_action) =>{
+                inserted_elem = ` <div class="action">
+                    <input type="text" class="action_name input_action">
+                    <input type="time" class="time_start input_action"><input type="time" class="time_end input_action">
+                    <button class="delete_action" onclick='delete_elem(this.parentElement)'><img src='/static/css/delete.png'></button>
+                </div>`
+                body_action = btn_create_action.currentTarget.previousElementSibling
+                body_action.insertAdjacentHTML('beforeend', inserted_elem)
+                body_action.lastElementChild.querySelector('.action_name').value = btn_create_action.currentTarget.value
+                btn_create_action.currentTarget.value = ''
+                btn_create_action.currentTarget.blur();
+                save_data_to_card()
+                body_action.lastElementChild.querySelectorAll('input').forEach((input) => {
+                    input.addEventListener('input', () => save_data_to_card())
+                })
+                body_action.lastElementChild.querySelector('.delete_action').addEventListener('click', () => save_data_to_card())
+            })
+        </script>
+
+
+    </div>
+
+</div>
+
+<div class="modalBackground">
+    <div id="modal_window_edit">
+        <p class="old_name"></p>
+        <input type="text" class="new_name" placeholder="Новое название">
+        <div>
+            <button class="cancel" onclick="cancel()">Отменить</button>
+            <button class="confirm" onclick="confirm()">Подтвердить</button>
+        </div>
+        <div style="display:none" class="save_adress"></div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/trip.js') }}"></script>
+
+<form action="/save_trip" method="post" class="save_data_trip">
+    <input type="text" id="trip_data" name="trip_data">
+    <input type="text" id="calendar_data" name="calendar_data">
+    <input type="text" id="saved_categories" name="saved_categories">
+    <input type="submit" id="submit_data_trip">
+</form>
+
+</body>
+
+
+{#<script>#}
+{#    function data_collection (){#}
+{#        trip_dict = {}#}
+{#        document.querySelectorAll('.chapter').forEach((chapter) => {#}
+{#            chapter_name = chapter.classList[0]#}
+{#            sections_data = {}#}
+{#            chapter.querySelectorAll('.section').forEach((section) => {#}
+{#                section_items_data = Array()#}
+{#                section.querySelectorAll('.list_item').forEach((item) => {#}
+{#                    if (item.classList.contains('new_item') === false){#}
+{#                        item_data = {}#}
+{#                        name = item.firstElementChild.lastElementChild.textContent#}
+{#                        name_status = String(item.firstElementChild.lastElementChild.classList.contains('del_element_label'))#}
+{#                        if (item.querySelector('.number').classList.contains('hide')){number = 0;}#}
+{#                        else{number = item.querySelector('.number').textContent;}#}
+{#                        item_data["name"] = name#}
+{#                        item_data["name_status"] = name_status#}
+{#                        item_data["number"] = number#}
+{#                        section_items_data.push(item_data)#}
+{#                    }#}
+{#                })#}
+{#                section_name = section.classList[0]#}
+{#                sections_data[section_name] = section_items_data#}
+{#            })#}
+{#            sections_dict = {}#}
+{#            chapter.querySelectorAll('.list_title').forEach((label_section) => {#}
+{#                section_name = label_section.classList[2]#}
+{#                section_status = label_section.classList.contains('title_show')#}
+{#                section_name_ru = label_section.textContent#}
+{#                sections_dict[section_name] = {"name_en": section_name, "name_ru": section_name_ru,#}
+{#                    "status": section_status, "data": sections_data[section_name]}#}
+{#            })#}
+{##}
+{#            trip_dict[chapter_name] = sections_dict#}
+{#        })#}
+{#        calendar_data = Array()#}
+{#        calendar = document.querySelector('.calendar_table')#}
+{#        calendar.querySelectorAll('.card').forEach((card) => {#}
+{#            calendar_day = {}#}
+{#            calendar_day["day"] = card.querySelector('.day_month').textContent#}
+{#            calendar_day["month"] = card.querySelector('.month').textContent#}
+{#            calendar_day["day_week"] = card.querySelector('.day_week').textContent#}
+{#            calendar_day["actions"] = card.querySelector('.service_span_actions').textContent#}
+{#            calendar_data.push(calendar_day)#}
+{#        })#}
+{#        console.log(trip_dict)#}
+{#        document.querySelector('#trip_data').value = JSON.stringify(trip_dict)#}
+{#        document.querySelector('#calendar_data').value = JSON.stringify(calendar_data)#}
+{##}
+{#    }#}
+{#</script>#}
+
+
+</body>
+</html>

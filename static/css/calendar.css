@@ -1,0 +1,50 @@
+.calendar {
+    max-width: 100%;
+    margin: 1em auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+.calendar-days {
+    display: flex;
+    flex-wrap: wrap;
+    /*background-color: #D48166;*/
+    /*color: white;*/
+    border: 0.1em solid #373A36;
+    width: 90%;
+}
+
+.day {
+    width: 14%;
+    height: 2em;
+    line-height: 40px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+#prevBtn, #nextBtn{
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.5em;
+    vertical-align: middle;
+    border-radius: 0.4em;
+    padding: 0.2em;
+    background-color: #373A36;
+    color: white;
+}
+.prev-month {
+    color: lightgray;
+}
+
+.selected {
+    background-color: lightblue;
+}

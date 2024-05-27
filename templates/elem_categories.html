@@ -1,0 +1,29 @@
+{% for categories in data %}
+        <div class="{{ categories['name'] }}">
+            {% include 'trip_element_list.html' %}
+        </div>
+        {% endfor %}
+
+
+
+
+
+
+
+
+<tr>
+    {% for i in range(l) %}
+    {% if i < 3 %}
+        {% include 'btn_element.html' %}
+    {% endif %}
+    {% endfor %}
+</tr>
+
+
+
+
+
+
+
+
+

@@ -14,7 +14,7 @@ from flask_bcrypt import Bcrypt
 
 # Подключение к серверу PostgreSQL на localhost с помощью psycopg2
 try:
-    engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech/verceldb")
+    engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech:5432/verceldb")
     engine.connect()
     Session = sessionmaker(bind=engine)
     session = Session()

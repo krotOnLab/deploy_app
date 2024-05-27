@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base
 from sqlalchemy import Integer, String, Column, Text, JSON, UUID, Float, ForeignKey, PrimaryKeyConstraint
@@ -16,7 +14,7 @@ from flask_bcrypt import Bcrypt
 
 # Подключение к серверу PostgreSQL на localhost с помощью psycopg2
 try:
-    engine = create_engine("postgresql+psycopg2://postgres:hf,jnf67yt@localhost/fqw")
+    engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech/verceldb")
     engine.connect()
     Session = sessionmaker(bind=engine)
     session = Session()

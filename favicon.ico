@@ -1,0 +1,9 @@
+export const metadata = {
+  icons: {
+    plus: '/static/icons/plus.png', // /public path
+	delete: '/static/icons/delete.png',
+	downarror: '/static/icons/downarror.png',
+	yes: '/static/icons/yes.png',
+	dots_three_vertical: '/static/icons/dots_three_vertical.png',
+  },
+}

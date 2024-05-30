@@ -14,10 +14,17 @@ from flask_bcrypt import Bcrypt
 
 # Подключение к серверу PostgreSQL на localhost с помощью psycopg2
 try:
-    engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech:5432/verceldb")
+    #engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech:5432/verceldb")
+    engine = create_engine("postgresql+psycopg2://user_from_app:krockodi1_yt?0K@localhost:5432/fqw")
     engine.connect()
     Session = sessionmaker(bind=engine)
     session = Session()
+    
+    
+    res = session.query(InfoTrip).all
+    session.commit()
+    print(res)
+    print(1)
 
 
     def newUser(app, login, telegram_id, password):

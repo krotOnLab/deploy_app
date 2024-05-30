@@ -4,7 +4,7 @@ from sqlalchemy import Integer, String, Column, Text, JSON, UUID, Float, Foreign
 from sqlalchemy.orm import relationship, declarative_base, Session
 # Подключение к серверу PostgreSQL на localhost с помощью psycopg2 DBAPI
 #engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech:5432/verceldb")
-engine = create_engine("postgresql+psycopg2://user_from_app:krockodi1_yt?0K@localhost:5432/fqw")
+engine = create_engine("postgresql+psycopg2://user_from_app:krockodi1_yt?0K@node-79-162-35-212.domolink.tula.net:5432/fqw")
 engine.connect()
 
 print(engine)

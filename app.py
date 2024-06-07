@@ -7,7 +7,7 @@ from manage_db import authorization, select_trips, insert_data_trip, insert_save
 
 from datetime import datetime, timedelta
 import locale
-locale.setlocale(locale.LC_ALL, 'ru_RU')
+#locale.setlocale(locale.LC_ALL, 'ru_RU')
 
 app = Flask(__name__) 
 

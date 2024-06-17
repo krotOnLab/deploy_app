@@ -3,10 +3,18 @@ from flask import Flask, Response, make_response
 from flask import render_template,  request, jsonify
 from manage_db import *
 from datetime import datetime, timedelta
-
+# import locale
+# locale.setlocale(locale.LC_ALL, 'ru_RU')
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+
+
+
+global CURRENT_USER
+global CURRENT_TRIP
+global BASE_PARAMS
+
 
 def calc_period (dates, status_trip, status=''):
     if type(dates) == str:
@@ -31,18 +39,20 @@ def calc_period (dates, status_trip, status=''):
 
 
 def check_country_distination(country, data, status_trip):
-    categories = get_saved_categories_user(login_user)
+    global CURRENT_USER
+    global BASE_PARAMS
+    categories = get_saved_categories_user(CURRENT_USER)
     # print(categories)
     # categories = categories[0]['saved_categories']
     if country == 'Китай':
         climat = get_climat_data(country)
         if status_trip == 'new':
             print('new')
-            if len(base_params['dates']) != 0:
-                per = calc_period(base_params['dates'], status_trip='new')
-                weather = get_meteo_data_from_DB(calc_period(base_params['dates'], status_trip='new',
+            if len(BASE_PARAMS['dates']) != 0:
+                per = calc_period(BASE_PARAMS['dates'], status_trip='new')
+                weather = get_meteo_data_from_DB(calc_period(BASE_PARAMS['dates'], status_trip='new',
                                                              status='meteo_data'), per,
-                                                 base_params['location'].split(', ')[1], country)
+                                                 BASE_PARAMS['location'].split(', ')[1], country)
             else:
                 per = 0
                 weather = []
@@ -68,9 +78,6 @@ def check_country_distination(country, data, status_trip):
             # print(not(isinstance(data['trip_data'], dict)))
             if not(isinstance(data['trip_data'], dict)):
                 data['trip_data'] = eval(data['trip_data'])
-            print(type(data['calendar_data']))
-            print(isinstance(data['calendar_data'], dict))
-            print(not (isinstance(data['calendar_data'], dict)))
             if not(isinstance(data['calendar_data'], list)):
                 data['calendar_data'] = eval(data['calendar_data'])
             # return render_template('trip_existing.html', params)
@@ -84,8 +91,8 @@ def check_country_distination(country, data, status_trip):
     #                                location=data['base_params']['location'], status='edit')
     # else:
         if status_trip == 'new':
-            if len(base_params['dates']) != 0:
-                per = calc_period(base_params['dates'], status_trip='new')
+            if len(BASE_PARAMS['dates']) != 0:
+                per = calc_period(BASE_PARAMS['dates'], status_trip='new')
             else:
                 per = []
             return render_template('trip.html', data=data, period=per,  categories=categories, status='save')
@@ -116,9 +123,9 @@ def hello_world():
 
 @app.route('/load_lk', methods=['post', 'get'])
 def load_lk():
-    global uuid_selected_trip
-    print(login_user)
-    trips = select_trips(login_user)
+    global CURRENT_USER
+    print(CURRENT_USER)
+    trips = select_trips(CURRENT_USER)
     return render_template('lk.html', trips=trips, number_trips=len(trips))
 
 
@@ -137,11 +144,11 @@ def enter_lk(login):
 
 @app.route('/submit_auth', methods=['post', 'get'])
 def main_page():
-    global login_user
+    global CURRENT_USER
     login = request.form.get('username').replace(" ", "").replace("\t", "")
     password = request.form.get('password').replace(" ", "").replace("\t", "")
     if authorization(app, login, password):
-        login_user = login
+        CURRENT_USER = login
         return enter_lk(login)
     else:
         return render_template('authorization.html', answer=False)
@@ -149,12 +156,13 @@ def main_page():
 
 @app.route('/delete_trip', methods=['post', 'get'])
 def del_trip():
+    global CURRENT_USER
     data = request.json
     print(request.json)
     # print(id_trip)
     # return True
-    delete_trip_from_user(login_user, data['id_trip'])
-    return enter_lk(login_user)
+    delete_trip_from_user(CURRENT_USER, data['id_trip'])
+    return enter_lk(CURRENT_USER)
 
 
 @app.route('/search')
@@ -181,44 +189,47 @@ def new_trip():
 
 @app.route('/settings', methods=['post', 'get'])
 def base_settings():
-    global base_params
-    base_params = request.form.to_dict()
-    if type(base_params['dates']) == str:
-        base_params['dates'] = base_params['dates'].split(',')
-    print(base_params)
-    if not check_name(base_params['location']):
-        return render_template('base_settings.html', data=base_params, alert='true')
+    global BASE_PARAMS
+    BASE_PARAMS = request.form.to_dict()
+    if type(BASE_PARAMS['dates']) == str:
+        BASE_PARAMS['dates'] = BASE_PARAMS['dates'].split(',')
+    print(BASE_PARAMS)
+    if not check_name(BASE_PARAMS['location']):
+        return render_template('base_settings.html', data=BASE_PARAMS, alert='true')
     else:
-        if base_params['location'].split(', ')[2] == 'Китай':
-            return render_template('settings.html', business=base_params['business'], vacation=base_params['vacation'],
+        if BASE_PARAMS['location'].split(', ')[2] == 'Китай':
+            return render_template('settings.html', business=BASE_PARAMS['business'], vacation=BASE_PARAMS['vacation'],
                                    status='china',
-                                   month=calc_period(base_params['dates'], status_trip='new')[0]['month'])
+                                   month=calc_period(BASE_PARAMS['dates'], status_trip='new')[0]['month'])
         else:
-            return render_template('settings.html', business=base_params['business'], vacation=base_params['vacation'],
-                                   month=calc_period(base_params['dates'], status_trip='new')[0]['month'])
+            return render_template('settings.html', business=BASE_PARAMS['business'], vacation=BASE_PARAMS['vacation'],
+                                   month=calc_period(BASE_PARAMS['dates'], status_trip='new')[0]['month'])
 
 
 @app.route('/trip', methods=['post', 'get'])
 def settings():
+    global BASE_PARAMS
     categories = request.form.to_dict()
     data = eval(categories['data'])
     data = {k: ('true' if v == 'true' else 'false') for (k, v) in data.items()}
     data = [k for (k, v) in data.items() if v == 'true']
-    data = {'data': ','.join(data), 'location': base_params['location']}
-    return check_country_distination(base_params['location'].split(', ')[2], data, 'new')
+    data = {'data': ','.join(data), 'location': BASE_PARAMS['location']}
+    return check_country_distination(BASE_PARAMS['location'].split(', ')[2], data, 'new')
 
 
 def save_t(data):
+    global BASE_PARAMS
+    global CURRENT_USER
     print(base_params)
     # base_params['dates'] = base_params['dates'].split(',')
-    data["base_params"] = base_params
+    data["base_params"] = BASE_PARAMS
     data['trip_data'] = eval(data['trip_data'].replace('false', 'False').replace('true', 'True'))
     data['calendar_data'] = eval(data['calendar_data'])
     saved_categories = eval(data['saved_categories'].replace('false', 'False').replace('true', 'True'))
     insert_data_trip(login_user, {'trip_data': data['trip_data'], 'calendar_data': data['calendar_data'],
                                   'base_params': data['base_params']})
     if saved_categories:
-        insert_saved_categories(login_user, saved_categories)
+        insert_saved_categories(CURRENT_USER, saved_categories)
 
 
 @app.route('/save_trip', methods=['post', 'get'])
@@ -243,36 +254,41 @@ def save_data(data):
 
     print(base_params['dates'])
     print(data)
-    if base_params:
-        data["base_params"] = base_params
+    global BASE_PARAMS
+    global CURRENT_USER
+    if BASE_PARAMS:
+        data["base_params"] = BASE_PARAMS
     data['trip_data'] = eval(data['trip_data'].replace('false', 'False').replace('true', 'True'))
     data['calendar_data'] = eval(data['calendar_data'])
     saved_categories = eval(data['saved_categories'].replace('false', 'False').replace('true', 'True'))
     insert_data_trip(login_user, {'trip_data': data['trip_data'], 'calendar_data': data['calendar_data'], 'base_params': data['base_params']})
     print(saved_categories)
     if saved_categories:
-        insert_saved_categories(login_user, saved_categories)
+        insert_saved_categories(CURRENT_USER, saved_categories)
     return check_country_distination(data['base_params']['location'].split(', ')[2], data, 'old')
 
 
 @app.route('/edit_trip', methods=['post', 'get'])
 def edit_trip():
+
     def save_data_trip(data):
         # print(uuid_selected_trip)
         if 'uuid_selected_trip' in globals():
+            global CURRENT_TRIP
             print('uuid')
-            if uuid_selected_trip:
-                data_old = select_trip(uuid_selected_trip)
+            if CURRENT_TRIP:
+                global CURRENT_USER
+                data_old = select_trip(CURRENT_TRIP)
                 print(data)
                 print(data_old)
                 data_old = data_old[0]
                 data_old['trip_data'] = data['trip_data'].replace('false', 'False').replace('true', 'True')
                 data_old['calendar_data'] = data['calendar_data']
                 saved_categories = data['saved_categories'].replace('false', 'False').replace('true', 'True')
-                edit_data_trip(uuid_selected_trip, {'trip_data': data_old['trip_data'], 'calendar_data': data_old['calendar_data'],
+                edit_data_trip(CURRENT_TRIP, {'trip_data': data_old['trip_data'], 'calendar_data': data_old['calendar_data'],
                                           'base_params': data_old['base_params']})
                 if saved_categories:
-                    insert_saved_categories(login_user, saved_categories)
+                    insert_saved_categories(CURRENT_USER, saved_categories)
                 return data_old
 
         else:
@@ -310,9 +326,10 @@ def load_trip():
     select_trip = eval(select_trip['params_trip'])
     # print(select_trip)
     # print(select_trip['uuid'])
-    global uuid_selected_trip
-    uuid_selected_trip = select_trip['uuid']
-    trips = select_trips(login_user)
+    global CURRENT_TRIP
+    global CURRENT_USER
+    CURRENT_TRIP = select_trip['uuid']
+    trips = select_trips(CURRENT_USER)
     for trip in trips:
         if str(trip[1]) == uuid_selected_trip:
             print(trip[0])

@@ -3,8 +3,7 @@ from flask import Flask, Response, make_response
 from flask import render_template,  request, jsonify
 from manage_db import *
 from datetime import datetime, timedelta
-import locale
-locale.setlocale(locale.LC_ALL, 'ru_RU')
+
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True

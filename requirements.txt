@@ -4,4 +4,3 @@ datetime
 sqlalchemy
 pandas
 flask_bcrypt
-locale

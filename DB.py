@@ -1,85 +1,71 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Integer, String, Column, Text, JSON, UUID, Float, ForeignKey, PrimaryKeyConstraint, Boolean, ARRAY
-
-from sqlalchemy.orm import relationship, declarative_base, Session
-# Подключение к серверу PostgreSQL на localhost с помощью psycopg2 DBAPI
-#engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp-pooler.eu-central-1.aws.neon.tech:5432/verceldb")
-#engine = create_engine("postgresql+psycopg2://user_from_app:krockodi1_yt?0K@node-79-162-35-212.domolink.tula.net:5432/fqw")
-#engine = create_engine("postgresql+psycopg2://default:FleEL4jqS1nd@ep-super-feather-a2pe3ypp.eu-central-1.aws.neon.tech:5432/verceldb?sslmode=require")
+from sqlalchemy.orm import declarative_base
+# engine = create_engine("postgresql+psycopg2://postgres:hf,jnf67yt@localhost/fqw")
 engine = create_engine("postgresql+psycopg2://fqw_owner:9ZtOP6dnYbKC@ep-snowy-rain-a2h4f9s6.eu-central-1.aws.neon.tech/fqw?sslmode=require")
 engine.connect()
-
-print(engine)
-
-
 Base = declarative_base()
+
 
 class Users(Base):
     __tablename__ = 'users'
     login = Column(Text, primary_key=True, nullable=False)
     telegram_id_user = Column(Text, nullable=False)
     password = Column(Text, nullable=False)
-    # trips = relationship('UserTrips', backref='user')
 
 
 class SavedCategory(Base):
     __tablename__ = 'saved_category'
-    __table_args__ = (
-        PrimaryKeyConstraint('login'),
-    )
+    __table_args__ = (PrimaryKeyConstraint('login'),)
     login = Column(Text, ForeignKey('users.login'), nullable=False)
     saved_category = Column(JSON, nullable=False)
-    # user = relationship('users', backref='saved_category')
 
 
 class Trips(Base):
     __tablename__ = 'trips'
     id_trip = Column(UUID, primary_key=True, nullable=False)
     trip = Column(JSON, nullable=False)
-    # user = relationship('UserTrips', backref='trip')
 
 
 class UserTrips(Base):
     __tablename__ = 'user_trips'
-    __table_args__ = (
-        PrimaryKeyConstraint('id_trip'),
-    )
+    __table_args__ = (PrimaryKeyConstraint('id_trip'),)
     login = Column(Text, ForeignKey('users.login'), nullable=False)
     id_trip = Column(UUID, ForeignKey('trips.id_trip'), unique=True, nullable=False)
 
 
-class DataMeteostationsChina(Base):
-    __tablename__ = 'data_meteostations_china'
+class DymanicSearchTips(Base):
+    __tablename__ = 'names_cities'
+    name = Column(Text, primary_key=True, nullable=False)
+    region = Column(Text, primary_key=True, nullable=False)
+    lat = Column(Float, nullable=False)
+    lon = Column(Float, nullable=False)
+    country = Column(Text, nullable=False)
+
+
+class DataMeteostations(Base):
+    __tablename__ = 'data_meteostations'
     index_meteostation = Column(Integer, nullable=False, primary_key=True)
-    date_time = Column(String(50), nullable=False)
+    date_time = Column(String(50), nullable=False, primary_key=True)
     temperature = Column(String(10))
-    P0 = Column(String(10))
-    Pressure = Column(String(10))
-    Pa = Column(String(10))
-    U = Column(String(10))
-    DD = Column(Text)
-    Ff = Column(Text)
-    ff10 = Column(String(10))
-    ff3 = Column(String(10))
-    N = Column(Text)
-    WW = Column(Text)
-    W1 = Column(Text)
-    W2 = Column(Text)
     Tn = Column(String(10))
     Tx = Column(String(10))
-    Cl = Column(Text)
-    Nh = Column(Text)
-    H = Column(String(50))
-    Cm = Column(Text)
-    Ch = Column(Text)
-    VV = Column(String(20))
-    Td = Column(String(10))
-    RRR = Column(Text)
-    tR = Column(String(10))
-    E = Column(Text)
-    Tg = Column(String(10))
-    Es = Column(Text)
-    sss = Column(String(10))
+
+
+class ClimatData(Base):
+    __tablename__ = 'climat_data'
+    country = Column(String(20), nullable=False, primary_key=True)
+    climat_data = Column(JSON, nullable=False)
+
+
+class MeteostationAverageDATA(Base):
+    __tablename__ = 'meteostation_average_data'
+    region = Column(Text, nullable=False, primary_key=True)
+    date = Column(String(10), nullable=False, primary_key=True)
+    t = Column(Float)
+    t_max = Column(Float)
+    t_min = Column(Float)
+    country = Column(String(30), nullable=False, primary_key=True)
 
 
 class InfoTrip(Base):
@@ -103,7 +89,6 @@ class MeteostationInfo(Base):
 
 
 Base.metadata.create_all(engine)
-
 engine.dispose()
 
 

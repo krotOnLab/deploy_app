@@ -4,12 +4,10 @@
         <span name="number" class="number count hide" oninput="check_count_items(this)">1</span>
         <button name="minus" class="btn- count" onclick="count_items(this.parentElement.parentElement, '-')">-</button>
     </div>
-
     <button class="btn_list_item" onclick="count_btns_trip_list(this)"></button>
      <div class="div_tools">
         <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'list_item')">Изменить</button>
         <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
     </div>
     <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
-
 {% endblock %}

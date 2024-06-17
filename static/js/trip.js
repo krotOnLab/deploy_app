@@ -14,7 +14,6 @@ function count_items(parent, action){
         parent.querySelector('[name="number"]').classList.toggle('hide', true);}
  }
 
-
  function open_tools(elem){
     const container = elem.previousElementSibling;
     if (container.classList.contains('div_tools') === true){
@@ -48,7 +47,6 @@ function count_items(parent, action){
         elements[1].classList.toggle('hide', false);
 }
 
-
 function upload_data_window(card){
     console.log(1);
     let wind = document.querySelector('.actions_window');
@@ -76,9 +74,7 @@ function upload_data_window(card){
     }
 }
 
-
 function text_to_save(body){
-    // let body = document.querySelector('.actions_body');
     let text = '';
     body.querySelectorAll('.action').forEach((action) => {
         text = text + `{"action_name":"${action.querySelector('.action_name').value}",
@@ -141,17 +137,17 @@ function delete_elem(element){
 }
 
 function hide_action_window(){
-    console.log(1);
     parent = document.querySelector('.actions_window');
     parent.style.cssText = 'display:none;';
     parent.previousElementSibling.style.cssText = 'height:100%;';
     upload_data_to_card();
 }
 
-let index_edited_element;
+let saved_categoties_dict;
 let index_edited_section;
 let index_edited_chapter;
-let status_edit_modal_window
+let status_edit_modal_window;
+
 function edit_element(element, status){
     if (status === 'list_item'){
         status_edit_modal_window = 'list_item';
@@ -161,8 +157,6 @@ function edit_element(element, status){
         index_edited_section = Array.from(chapter.querySelectorAll('.section')).indexOf(section);
         index_edited_chapter = Array.from(chapter.parentElement.querySelectorAll('.chapter')).indexOf(chapter);
         document.querySelector('.old_name').textContent = element.parentElement.firstElementChild.lastElementChild.textContent;
-        // document.querySelector('.old_name').textContent = element.firstElementChild.lastElementChild.textContent;
-        // document.querySelector('.save_adress').innerHTML = element.innerHTML;
     } else if (status === 'category'){
         status_edit_modal_window = 'category';
         let chapter = element.parentElement.parentElement;
@@ -190,19 +184,14 @@ function confirm(){
     document.querySelector('.modalBackground').style.cssText = 'display:none;';
     document.querySelector('#modal_window_edit').classList.remove('modal-animation');
     if (status_edit_modal_window ==='category'){
-        console.log(index_edited_chapter);
         let chapter = Array.from(document.querySelector('.list').querySelectorAll('.chapter'))[index_edited_chapter]
-        console.log(chapter);
-        console.log(index_edited_section)
         let section = Array.from(chapter.querySelectorAll('.section'))[index_edited_section]
-        console.log(section);
         section.previousElementSibling.firstElementChild.textContent = document.querySelector('.new_name').value;
     } else if (status_edit_modal_window === 'list_item'){
         let chapter = Array.from(document.querySelector('.list').querySelectorAll('.chapter'))[index_edited_chapter]
         let section = Array.from(chapter.querySelectorAll('.section'))[index_edited_section]
         let list_item = Array.from(section.querySelectorAll('.list_item'))[index_edited_element]
         list_item.firstElementChild.lastElementChild.textContent = document.querySelector('.new_name').value;
-        // list_item = '';
     }
     document.querySelector('.new_name').value = '';
     document.querySelector('.old_name').textContent = '';
@@ -210,7 +199,7 @@ function confirm(){
 
 function data_collection (){
     let trip_dict = {}
-    let saved_categoties_dict = {}
+    saved_categoties_dict = {}
     document.querySelectorAll('.chapter').forEach((chapter) => {
         let chapter_name = chapter.classList[0];
         let sections_data = {};
@@ -221,8 +210,10 @@ function data_collection (){
                     let item_data = {};
                     name = item.firstElementChild.lastElementChild.textContent;
                     let name_status = String(item.firstElementChild.lastElementChild.classList.contains('del_element_label'));
+                    if (name_status === false){ name_status='fls'}
+                    else if (name_status === true) {name_status='tr'}
                     let number;
-                    if (item.querySelector('.number').classList.contains('hide')){number = 0;}
+                    if (item.querySelector('.number').classList.contains('hide')){number = '0';}
                     else{number = item.querySelector('.number').textContent;}
                     item_data["name"] = name;
                     item_data["name_status"] = name_status;
@@ -236,6 +227,8 @@ function data_collection (){
             chapter.querySelectorAll('.list_title').forEach((label_section) => {
                 let section_name = label_section.classList[2];
                 let section_status = label_section.parentElement.classList.contains('title_show');
+                if (section_status === false){ section_status = 'fls'}
+                    else if (section_status === true) {section_status = 'tr'}
                 let section_name_ru = label_section.textContent;
                 sections_dict[section_name] = {"name_en": section_name, "name_ru": section_name_ru,
                     "status": section_status, "data": sections_data[section_name]};
@@ -257,7 +250,6 @@ function data_collection (){
         calendar_day["actions"] = card.querySelector('.service_span_actions').textContent;
         calendar_data.push(calendar_day);
     });
-    console.log(calendar_data)
     document.querySelector('#trip_data').value = JSON.stringify(trip_dict);
     document.querySelector('#calendar_data').value = JSON.stringify(calendar_data);
     document.querySelector('#saved_categories').value = JSON.stringify(saved_categoties_dict);
@@ -265,29 +257,200 @@ function data_collection (){
 
 function save_data(){
     data_collection();
-    console.log(document.querySelector('#trip_data').value);
-    console.log(document.querySelector('#calendar_data').value);
-    console.log(document.querySelector('#saved_categories').value);
     document.querySelector('#submit_data_trip').click();
 }
 
 function toggle_list_items(event) {
     let elem = event.currentTarget.parentElement.nextElementSibling;
-    console.log(elem)
-    console.log(elem.classList)
-    if (elem.classList.contains('list_item_ani_show') == true) {
+    if (elem.classList.contains('list_item_ani_show') === true) {
         elem.classList.toggle('list_item_ani_show', false);
         elem.classList.toggle('list_item_ani_hide', true);
-    } else if (elem.classList.contains('list_item_ani_hide') == true) {
+    } else if (elem.classList.contains('list_item_ani_hide') === true) {
         elem.classList.toggle('list_item_ani_show', true);
         elem.classList.toggle('list_item_ani_hide', false);
-    } else if (elem.classList.contains('list_item_ani_show') == false) {
+    } else if (elem.classList.contains('list_item_ani_show') === false) {
         elem.classList.toggle('list_item_ani_show', true);
     }
 }
 
+function search_elements_section(section_name){
+    let section = document.querySelector(`.${section_name}`);
+    let items = [];
+    section.querySelectorAll('.list_item').forEach((item) => {
+        items.push(item.querySelector('label>span').textContent);
+    });
+    return items;
+}
 
+const winter_clothes = document.querySelector('div.winter_clothes');
+const clothes = document.querySelector('div.clothes');
 
+function select_items_one_count(items){
+    clothes.querySelectorAll('.list_item').forEach((elem) => {
+        if (elem.classList.contains('new_item') !== true){
+            let name_elem = elem.querySelector('label>span').textContent
+            if (items.includes(name_elem)){
+                elem.querySelector('.btn_list_item').click();
+            }
+        }
+    })
+}
+
+function winter_spring_and_autumn_winter(){
+    winter_clothes.querySelectorAll('.list_item').forEach((elem) =>{
+        let clothes_winter = ['Варежки|Перчатки', 'Свитер', 'Шапка', 'Термобелье', 'Шарф', 'Куртка зимняя']
+        if (elem.classList.contains('new_item') !== true){
+            let name_elem = elem.querySelector('label>span').textContent
+            if (clothes_winter.includes(name_elem)){
+                if (name_elem === 'Термобелье' || name_elem === 'Варежки|Перчатки'){
+                    elem.querySelector('.btn_list_item').click();
+                    if (count_days>3){elem.querySelector('.btns_count>span').textContent = 2;}
+                } else{
+                    elem.querySelector('.btn_list_item').click();
+                }
+            }
+        }
+    })
+    let items = ['Куртка'];
+    select_items_one_count(items);
+}
+
+function middle_spring_and_middle_autumn(){
+    winter_clothes.querySelectorAll('.list_item').forEach((elem) =>{
+        if (elem.classList.contains('new_item') !== true){
+            if (['Свитер', 'Шапка'].includes(elem.querySelector('label>span').textContent)){
+                elem.querySelector('.btn_list_item').click();
+            }
+        }
+    })
+    let items = ['Жилетка', 'Куртка'];
+    select_items_one_count(items);
+}
+
+async function load_lk(){
+    fetch('/load_lk', {
+        method: 'POST'})
+        .then(response => response.text())
+        .then(html => {
+             document.querySelector('html').innerHTML = html;
+             document.querySelectorAll('p.materials').forEach((p) =>{
+                p.addEventListener('click', (event) => toggle_list_items(event))
+            });
+            document.querySelectorAll('.description_trip').forEach((trip) => {
+                trip.addEventListener('click', (event) => {
+                    let t = event.currentTarget
+                    text = `{"uuid":"${t.querySelector('#uuid').textContent}"}`
+                    document.querySelector('.data').value = text
+                    document.querySelector('.load').click()
+                } )
+            });
+})}
+async function back_lk(status){
+    data_collection()
+    let url;
+    if (status === 'edit'){url = '/edit_trip'}
+    else if (status === 'save') {url = '/save_trip'}
+    await fetch (url, {
+        method: 'POST', // Метод запроса (GET, POST, PUT, DELETE, PATCH и т.д.)
+        headers: {
+        'Content-Type': 'application/json' // Тип данных в теле запроса
+        },
+        body: JSON.stringify({ // Тело запроса в формате JSON
+            trip_data: document.querySelector('#trip_data').value,
+            calendar_data: document.querySelector('#calendar_data').value,
+            saved_categories: document.querySelector('#saved_categories').value
+        })
+    });
+await load_lk()}
+
+window.addEventListener('load', () => {
+    if (document.querySelector('.weather')){
+        let international = document.querySelector('div.international')
+        international.querySelectorAll('.list_item').forEach((elem) => {
+            if (elem.classList.contains('new_item') !== true){
+                elem.querySelector('.btn_list_item').click();}
+        })
+        const formal_clothes_arr = ['Пиджак', 'Рубашка', 'Брюки'];
+        let formal_clothes = document.querySelector('div.formal_clothes')
+        formal_clothes.querySelectorAll('.list_item').forEach((elem) => {
+            if (elem.classList.contains('new_item') !== true){
+                if (formal_clothes_arr.includes(elem.querySelector('label>span').textContent)){
+                    elem.querySelector('.btn_list_item').click();}
+            }
+        })
+    }
+    let count_days = document.querySelectorAll('.elem_calendar').length;
+    clothes.querySelectorAll('.list_item').forEach((elem) => {
+        if (elem.classList.contains('new_item') !== true){
+            if (elem.querySelector('label>span').textContent === 'Обувь'){
+                elem.querySelector('.btn_list_item').click();
+                elem.querySelector('.btns_count>span').textContent = 2;
+            }
+            if (elem.querySelector('label>span').textContent === 'Нижнее белье' ||
+                    elem.querySelector('label>span').textContent === 'Носки' ){
+                elem.querySelector('.btn_list_item').click();
+                elem.querySelector('.btns_count>span').textContent = count_days;
+            }
+            if (elem.querySelector('label>span').textContent === 'Футболка'){
+                elem.querySelector('.btn_list_item').click();
+                if (count_days%2===0){
+                    elem.querySelector('.btns_count>span').textContent = count_days/2;
+                }else if (count_days%2===1){
+                    elem.querySelector('.btns_count>span').textContent = (count_days+1)/2;
+                }
+            }
+             if (elem.querySelector('label>span').textContent === 'Джинсы'){
+                elem.querySelector('.btn_list_item').click();
+            }
+        }
+    })
+    const months = [['Декабрь', 'Январь', 'Февраль'], ['Март', 'Апрель', 'Май'],
+                            ['Июнь', 'Июль', 'Август'], ['Сентябрь', 'Октябрь', 'Ноябрь']];
+    let month = document.querySelector('.calendar_table div p:first-child .month').textContent;
+    for (let i=0; i<4;i++){
+        if (months[i].includes(month)){
+            if (i===0){
+                winter_clothes.querySelectorAll('.list_item').forEach((elem) =>{
+                    clothes_winter = ['Варежки|Перчатки', 'Свитер', 'Шапка', 'Термобелье', 'Шарф', 'Куртка зимняя'];
+                    if (elem.classList.contains('new_item') !== true){
+                        let name_elem = elem.querySelector('label>span').textContent;
+                        if (clothes_winter.includes(name_elem)){
+                            if (name_elem === 'Термобелье' || name_elem === 'Варежки|Перчатки'){
+                                elem.querySelector('.btn_list_item').click();
+                                if (count_days>3){elem.querySelector('.btns_count>span').textContent = 2;}
+                            } else{
+                                elem.querySelector('.btn_list_item').click();
+                            }
+                        }
+                    }
+                })
+            } else if (i===1){
+                if (month==='Март'){
+                    winter_spring_and_autumn_winter();
+                }
+                if (month==='Апрель'){
+                    middle_spring_and_middle_autumn();
+                }
+                if (month==='Май'){
+                    let items = ['Жилетка', 'Куртка', 'Шорты'];
+                    select_items_one_count(items);
+                }
+            } else if (i===2){
+                let items = ['Жилетка', 'Куртка', 'Шорты'];
+                select_items_one_count(items);
+            } else if (i===3){
+                if (month==='Сентябрь'){
+                    let items = ['Жилетка', 'Куртка'];
+                    select_items_one_count(items);
+                } if (month==='Октябрь'){
+                    middle_spring_and_middle_autumn();
+                } if (month==='Ноябрь'){
+                    winter_spring_and_autumn_winter();
+                }
+            }
+        }
+    }
+})
 
 
 

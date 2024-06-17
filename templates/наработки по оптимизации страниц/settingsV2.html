@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
+</head>
+<body>
+<div class="settings_trip_list wrapper" id="settings_trip_list">
+
+        {% for category in data %}
+        <div class="settings_block" id="{{ category['name_en'] }}">
+            <p class="title">{{ category['name_ru'] }}</p>
+            <table>
+                {% for i in range(round(loop.length)) %}
+                {% for items in category['items'] %}
+                        {% include 'elem_categories.html' %}
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+
+
+         <div class="settings_block" id="accommodation">
+            <p class="title">Проживание</p>
+            <table>
+                <tr>
+                    <th>
+                        <button class="button_trip" >Отель<input type="checkbox" id='hotel' class="check_type check_settings hotel"></button>
+                    </th>
+                    <th>
+                         <button class="button_trip">Аренда<input type="checkbox" id='rental' class="check_type check_settings rental"></button>
+                    </th>
+                    <th>
+                        <button class="button_trip">Семья|Друзья<input type="checkbox" id='family_fr' class="check_type check_settings family_fr"></button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <button class="button_trip">Второй дом<input type="checkbox" id='second_home' class="check_type check_settings second_home"></button>
+                    </th>
+                    <th>
+                        <button class="button_trip">На природе<input type="checkbox" id='camping' class="check_type check_settings camping"></button>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+
+
+        <script>
+            let buttons = document.querySelectorAll('.button_trip, .type_trip');
+            buttons.forEach((elem) => {
+                elem.addEventListener("click", function(event) {
+                    let child = event.currentTarget.firstElementChild
+                    console.log(child);
+                    console.log(child.getAttribute('checked'));
+                    if (child.getAttribute('checked')!='true'){
+                        toggle_check(child, true)}
+                    else{
+                        toggle_check(child, false)}
+                })})
+        </script>
+        <script>
+            function toggle_check(elem, status){elem.classList.toggle('checked', status);
+                                            elem.setAttribute('checked', `${status}`);}
+        </script>
+        <script>
+                window.addEventListener('load', () => {
+                    let list = [ 'essentials', 'toiletries', 'clothes', 'international', 'dinner', 'formal_clothes','work']
+                    if (document.querySelector('#business').innerHTML == 'true'){
+                        list.forEach((elem) => toggle_check(document.querySelector(`#${elem}`), true));
+                    };
+                    if (document.getElementById('vacation').innerHTML == 'true'){
+                        for (let i=0; i<5;i++){
+                            if (document.querySelector(`#${list[i]}`).getAttribute('checked')!="true")
+                            {toggle_check(document.querySelector(`#${list[i]}`),true)}
+                        }
+                    };
+                })
+            </script>
+    <div id="btn_create">
+        <button id="create_trip">НОВАЯ ПОЕЗДКА</button>
+    </div>
+    <p id="business" style="display: none">{{ business }}</p>
+    <p id="vacation" style="display: none">{{ vacation }}</p>
+</div>
+
+
+</body>
+</html>

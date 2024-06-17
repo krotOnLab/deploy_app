@@ -1,0 +1,36 @@
+{% macro tools() %}
+    <div class="div_tools">
+        <button class="tools edit_btn" onclick="edit_element(this.parentElement.parentElement)">Изменить</button>
+        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+    </div>
+    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+{% endmacro %}
+{% macro btns(number) %}
+    <div class="btns_count">
+        <button class="btn+ count"  name="plus" onclick="count_items(this.parentElement.parentElement, '+')">+</button>
+        {% if number != 0 %}
+        <span name="number" class="number count" oninput="check_count_items(this)">{{ number }}</span>
+        {% else %}
+        <span name="number" class="number count hide" oninput="check_count_items(this)">{{ number + 1 }}</span>
+        {% endif %}
+        <button name="minus" class="btn- count" onclick="count_items(this.parentElement.parentElement, '-')">-</button>
+    </div>
+    <button class="btn_list_item" onclick="count_btns_trip_list(this)"></button>
+     {{ tools() }}
+{% endmacro %}
+{% macro list_item_macro(name, status, number ) %}
+    <div class="list_item">
+    {% if (status == 'tr') or (status == true) %}
+        <label class="check_list_item_label"><input type="checkbox" class="check_list_item del_element_label" ><span>{{ name }}</span></label>
+    {% else %}
+        <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>{{ name }}</span></label>
+    {% endif %}
+        {{ btns(number) }}
+    </div>
+{% endmacro %}
+{% macro new_item() %}
+    <div class="list_item new_item">
+        <img src="{{ url_for('static', filename='css/plus.png') }}" alt="+">
+        <input type="text" class="text_new_item"  onchange="create_item(this.parentElement, this.value)" placeholder="Новый элемент">
+    </div>
+{% endmacro %}

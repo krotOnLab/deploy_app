@@ -5,8 +5,10 @@ document.querySelector('#new_trip').addEventListener('click', function () {
 	document.querySelector('#submit').click();
 });
 
+
 function toggle_check(elem, status){elem.classList.toggle('checked', status);
-									elem.setAttribute('checked', `${status}`);};
+	elem.setAttribute('checked', `${status}`);}
+
 let buttons = document.querySelectorAll('.type_trip');
 buttons.forEach((elem) => {
 	elem.addEventListener("click", function(event) {

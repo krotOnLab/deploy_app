@@ -4,270 +4,180 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css')}}">
-
 </head>
 <body>
 <div class="settings_trip_list wrapper" id="settings_trip_list">
-        <div class="settings_block" id="accommodation">
-            <p class="title">Проживание</p>
-            <table class="table_settings">
-                <tr>
-                    <th>
-                        <button class="button_trip" >Отель<input type="checkbox" id='hotel' class="check_type check_settings hotel"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Аренда<input type="checkbox" id='rental' class="check_type check_settings rental"></button>
-                    </th>
-                    <th>
-                        <button class="button_trip">Семья|Друзья<input type="checkbox" id='family_fr' class="check_type check_settings family_fr"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <button class="button_trip">Второй дом<input type="checkbox" id='second_home' class="check_type check_settings second_home"></button>
-                    </th>
-                    <th>
-                        <button class="button_trip">На природе<input type="checkbox" id='camping' class="check_type check_settings camping"></button>
-                    </th>
-                </tr>
-            </table>
-        </div>
-        <div class="settings_block" id="transportation">
-            <p class="title">Перемещение</p>
-            <table class="table_settings">
-                <tr>
-                    <th>
-                         <button class="button_trip btn">Самолет<input type="checkbox" id='airplane' class="check_type check_settings airplane"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip btn">Автомобиль<input type="checkbox" id='car' class="check_type check_settings car"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                         <button class="button_trip btn">Поезд<input type="checkbox" id='train' class="check_type check_settings train"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip btn">Автобус<input type="checkbox" id='bus' class="check_type check_settings bus"></button>
-                    </th>
-                </tr>
-            </table>
-        </div>
-        <div class="settings_block" id="items">
-            <p class="title">Вещи</p>
-            <table class="table_settings">
-                <tr>
-                    <th>
-                         <button class="button_trip">Вещи первой нуждаемости<input type="checkbox" id='essentials' class="check_type check_settings essentials"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Личная гигиена<input type="checkbox" id='toiletries' class="check_type check_settings toiletries"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Путешествие за границу<input type="checkbox" id='international' class="check_type check_settings international"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                         <button class="button_trip">Одежда<input type="checkbox" id='clothes' class="check_type check_settings clothes"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Официально-деловой набор<input type="checkbox" id='formal_clothes' class="check_type check_settings formal_clothes"></button>
-                    </th>
-                </tr>
-            </table>
-        </div>
-        <div class="settings_block" id="activities">
-            <p class="title">Занятия</p>
-            <table class="table_settings">
-                <tr>
-                    <th>
-                         <button class="button_trip">Работа<input type="checkbox" id='work' class="check_type check_settings work"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Пляж<input type="checkbox" id='beach' class="check_type check_settings beach"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Плавание<input type="checkbox" id='swimming' class="check_type check_settings swimming"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                         <button class="button_trip">Ужин<input type="checkbox" id='dinner' class="check_type check_settings dinner"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Бег<input type="checkbox" id='run' class="check_type check_settings run"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Велотуризм<input type="checkbox" id='cycling' class="check_type check_settings cycling"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                         <button class="button_trip">Пеший туризм<input type="checkbox" id='hiking' class="check_type check_settings hiking"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Зимний спорт<input type="checkbox" id='snow_sport' class="check_type check_settings snow_sport"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Туристические походы<input type="checkbox" id='tourism' class="check_type check_settings tourism"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                         <button class="button_trip">Тренажерный зал<input type="checkbox" id='gym' class="check_type check_settings gym"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Фотография<input type="checkbox" id='photography' class="check_type check_settings photography"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip">Мотоциклы<input type="checkbox" id='motorcycle' class="check_type check_settings motocycle"></button>
-                    </th>
-                </tr>
-            </table>
-        </div>
-        <div class="settings_block" id="family">
-            <p class="title">Семья</p>
-            <table class="table_settings">
-                <tr>
-                    <th>
-                         <button class="button_trip btn">Список дел<input type="checkbox" id='to_do_list' class="check_type check_settings to_do_list"></button>
-                    </th>
-                    <th>
-                         <button class="button_trip btn">Ребенок<input type="checkbox" id='baby' class="check_type check_settings baby"></button>
-                    </th>
-                </tr>
-
-            </table>
-        </div>
-        <script type="text/javascript" src="/static/js/settings.js"></script>
-{#        <script>#}
-{#            let buttons = document.querySelectorAll('.button_trip, .type_trip');#}
-{#            buttons.forEach((elem) => {#}
-{#                elem.addEventListener("click", function(event) {#}
-{#                    let child = event.currentTarget.firstElementChild#}
-{#                    console.log(child);#}
-{#                    console.log(child.getAttribute('checked'));#}
-{#                    if (child.getAttribute('checked')!='true'){#}
-{#                        toggle_check(child, true)}#}
-{#                    else{#}
-{#                        toggle_check(child, false)}#}
-{#                })})#}
-{#        </script>#}
-{#        <script>#}
-{#            function toggle_check(elem, status){elem.classList.toggle('checked', status);#}
-{#                                            elem.setAttribute('checked', `${status}`);}#}
-{#        </script>#}
-{#        <script>#}
-{#                window.addEventListener('load', () => {#}
-{#                    let list = [ 'essentials', 'toiletries', 'clothes', 'international', 'dinner', 'formal_clothes','work']#}
-{#                    if (document.querySelector('#business').innerHTML == 'true'){#}
-{#                        list.forEach((elem) => toggle_check(document.querySelector(`#${elem}`), true));#}
-{#                    };#}
-{#                    if (document.getElementById('vacation').innerHTML == 'true'){#}
-{#                        for (let i=0; i<5;i++){#}
-{#                            if (document.querySelector(`#${list[i]}`).getAttribute('checked')!="true")#}
-{#                            {toggle_check(document.querySelector(`#${list[i]}`),true)}#}
-{#                        }#}
-{#                    };#}
-{#                })#}
-{#            </script>#}
-    <div id="btn_create">
-        <button id="create_trip" class="btns">НОВАЯ ПОЕЗДКА</button>
+    <div class="settings_block" id="accommodation">
+        <p class="title">Проживание</p>
+        <table class="table_settings">
+            <tr>
+                <th>
+                    <button class="button_trip" >Отель<input type="checkbox" id='hotel' class="check_type check_settings hotel"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Аренда<input type="checkbox" id='rental' class="check_type check_settings rental"></button>
+                </th>
+                <th>
+                    <button class="button_trip">Семья|Друзья<input type="checkbox" id='family_fr' class="check_type check_settings family_fr"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <button class="button_trip">Второй дом<input type="checkbox" id='second_home' class="check_type check_settings second_home"></button>
+                </th>
+                <th>
+                    <button class="button_trip">На природе<input type="checkbox" id='camping' class="check_type check_settings camping"></button>
+                </th>
+            </tr>
+        </table>
     </div>
-    <p id="business" style="display: none">{{ business }}</p>
-    <p id="vacation" style="display: none">{{ vacation }}</p>
+    <div class="settings_block" id="transportation">
+        <p class="title">Перемещение</p>
+        <table class="table_settings">
+            <tr>
+                <th>
+                     <button class="button_trip btn">Самолет<input type="checkbox" id='airplane' class="check_type check_settings airplane"></button>
+                </th>
+                <th>
+                     <button class="button_trip btn">Автомобиль<input type="checkbox" id='car' class="check_type check_settings car"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                     <button class="button_trip btn">Поезд<input type="checkbox" id='train' class="check_type check_settings train"></button>
+                </th>
+                <th>
+                     <button class="button_trip btn">Автобус<input type="checkbox" id='bus' class="check_type check_settings bus"></button>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="settings_block" id="items">
+        <p class="title">Вещи</p>
+        <table class="table_settings">
+            <tr>
+                <th>
+                     <button class="button_trip">Вещи первой необхо-сти<input type="checkbox" id='essentials' class="check_type check_settings essentials"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Личная гигиена<input type="checkbox" id='toiletries' class="check_type check_settings toiletries"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Путешествие за границу<input type="checkbox" id='international' class="check_type check_settings international"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                     <button class="button_trip">Одежда<input type="checkbox" id='clothes' class="check_type check_settings clothes"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Официально-деловой набор<input type="checkbox" id='formal_clothes' class="check_type check_settings formal_clothes"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Одежда на холодный сезон<input type="checkbox" id='winter_clothes' class="check_type check_settings winter_clothes"></button>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="settings_block" id="activities">
+        <p class="title">Занятия</p>
+        <table class="table_settings">
+            <tr>
+                <th>
+                     <button class="button_trip">Работа<input type="checkbox" id='work' class="check_type check_settings work"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Пляж<input type="checkbox" id='beach' class="check_type check_settings beach"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Плавание<input type="checkbox" id='swimming' class="check_type check_settings swimming"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                     <button class="button_trip">Ужин<input type="checkbox" id='dinner' class="check_type check_settings dinner"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Бег<input type="checkbox" id='run' class="check_type check_settings run"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Велотуризм<input type="checkbox" id='cycling' class="check_type check_settings cycling"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                     <button class="button_trip">Пеший туризм<input type="checkbox" id='hiking' class="check_type check_settings hiking"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Зимний спорт<input type="checkbox" id='snow_sport' class="check_type check_settings snow_sport"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Туристические походы<input type="checkbox" id='tourism' class="check_type check_settings tourism"></button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                     <button class="button_trip">Тренажерный зал<input type="checkbox" id='gym' class="check_type check_settings gym"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Фотография<input type="checkbox" id='photography' class="check_type check_settings photography"></button>
+                </th>
+                <th>
+                     <button class="button_trip">Мотоциклы<input type="checkbox" id='motorcycle' class="check_type check_settings motocycle"></button>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="settings_block" id="family">
+        <p class="title">Семья</p>
+        <table class="table_settings">
+            <tr>
+                <th>
+                     <button class="button_trip btn">Список дел<input type="checkbox" id='to_do_list' class="check_type check_settings to_do_list"></button>
+                </th>
+                <th>
+                     <button class="button_trip btn">Ребенок<input type="checkbox" id='baby' class="check_type check_settings baby"></button>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript" src="/static/js/settings.js"></script>
+    <div id="btn_create"><button id="create_trip" class="btns">ПЕРЕЙТИ К ПОЕЗДКЕ</button></div>
+    <span id="business" style="display: none">{{ business }}</span>
+    <span id="vacation" style="display: none">{{ vacation }}</span>
+    <span id="country" style="display: none">{{ status }}</span>
+    <span id="month" style="display: none">{{ month }}</span>
+    <span id="list_existing_categories" style="display: none">{{ list_categories }}</span>
 </div>
 <form action="/trip" style="display: none" method="post">
     <input type="text" name="data"  id="text">
     <input type="submit" id="submit_btn">
 </form>
-
-<script type="text/javascript" src="/static/js/settings_upload.js"></script>
-{#<script>#}
-{#    document.getElementById('create_trip').addEventListener('click', () => {#}
-{#        let text = '{'#}
-{#        document.querySelectorAll('.check_type').forEach((elem) => {#}
-{#            text = text + `"${elem.getAttribute('id')}":"${elem.getAttribute('checked')}", `#}
-{#        })#}
-{#        text = text.slice(0, -2)#}
-{#        text = text + '}'#}
-{#        document.querySelector('#text').setAttribute('value', text)#}
-        {#document.querySelector('#submit_btn').setAttribute('value', JSON.parse(text));#}
-        {#console.log(JSON.parse(text))#}
-        {#console.log( document.querySelector('#submit_btn').getAttribute('value'))#}
-{#        document.getElementById('submit_btn').click()#}
-{#    })#}
-{#</script>#}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{#<script>#}
-{#    document.querySelector('#submit_btn').addEventListener('click', (event) => {#}
-{#        let text = ''#}
-{#        document.querySelectorAll('.check_type').forEach((elem) => {#}
-{#            text = text + `{${elem.getAttribute('id')}:${elem.getAttribute('checked')}},`#}
-{#        })#}
-{#        console.log(event.currentTarget);#}
-{#        event.currentTarget.setAttribute('value', text);#}
-{#        console.log(event.currentTarget.getAttribute('value'))#}
-{#    })#}
-{#</script>#}
-
-{#<script>#}
-{#    document.querySelector('#create_trip').addEventListener('click', () => {#}
-{#        let settings = document.getElementsByClassName('check_settings')#}
-{#        let data= {}#}
-{#        for(let item of settings){#}
-{#            data[item.id] = String(item.getAttribute('checked'));#}
-{#        }#}
-{#        send_data(data);#}
-{#        function send_data(data) {#}
-{#            let XHR = new XMLHttpRequest();#}
-{#            XHR.open('POST', 'set_base_settings', true);#}
-{#            XHR.setRequestHeader('content-type', 'application/json');#}
-{#            XHR.send(JSON.stringify(data));#}
-{##}
-{#                }})#}
-{##}
-{##}
-{##}
-{##}
-{##}
-        {##}
-        {#function hide_settings(){#}
-        {#    const page = document.getElementById('settings_trip_list');#}
-        {#    page.style.cssText = "display:None;";#}
-        {#    const second_page = document.getElementById('trip_list');#}
-        {#    second_page.style.cssText = 'display: flex;';#}
-        {#    checked();#}
-{##}
-{#</script>#}
+<script>
+    document.getElementById('create_trip').addEventListener('click', () => {
+        let text = '{';
+        document.querySelectorAll('.check_type').forEach((elem) => {
+            text = text + `"${elem.getAttribute('id')}":"${elem.getAttribute('checked')}", `
+        });
+        text = text.slice(0, -2);
+        text = text + '}';
+        document.querySelector('#text').setAttribute('value', text);
+        document.getElementById('submit_btn').click();
+    });
+</script>
+<script>
+    console.log(document.querySelector('#list_existing_categories').textContent)
+    if (document.querySelector('#list_existing_categories').textContent !== ''){
+        let existing_categories = document.querySelector('#list_existing_categories').textContent.split(',')
+        console.log(existing_categories)
+        document.querySelectorAll('.button_trip').forEach((element) => {
+            console.log(element.textContent)
+            if (element.textContent in existing_categories){
+                element.querySelector('input').setAttribute('checked', 'true')
+                element.querySelector('input').classList.toggle('checked', true)
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -5,19 +5,60 @@
     <title>Base settings</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
+{% if alert == 'true' %}
+<script>alert('Вы ввели некорректное название населенного пункта. Пожалуйста, вводите название населенного пункта и выберите его из предложенного списка.')</script>
+{% endif %}
 <div class="wrapper" id="main_page">
     <div class="content" id="content">
-
         <div class="settings_trip">
+
             <input id="location" placeholder="Куда поедем?" class="settings top" name="location" form="base_settings" required>
+            <div id="suggestions" class="autocomplete-suggestions"></div>
+            <script>
+                $(document).ready(function() {
+                    $('#location').keyup(function() {
+                        var query = $(this).val();
+                        $('#suggestions').empty();  // Очищаем предыдущие подсказки
+                        if (query.length > 0) {
+                            $.ajax({
+                                url: '/search',
+                                data: { q: query },
+                                success: function(results) {
+                                    if (results.length > 0) {
+                                        $.each(results, function(index, result) {
+                                            $('#suggestions').append(`
+                                                <div class="autocomplete-suggestion" data="${result}">${result}</div>
+                                            `);
+                                        });
+                                        $('#suggestions').show();// Покажем подсказки
+                                    } else {
+                                        $('#suggestions').hide();  // Скрываем подсказки, если нет результатов
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#suggestions').hide();  // Скрываем подсказки, если поле пустое
+                        }
+                    });
+                    // Обработка кликов по подсказкам
+                    $(document).on('click', '.autocomplete-suggestion', function() {
+                        $('#location').val($(this).attr('data'));  // Заполняем поле ввода
+                        $('#suggestions').hide();  // Скрываем подсказки
+                    });
+                    // Скрытие подсказок при потере фокуса
+                    {#$('#location').blur(function() {#}
+                    {#    $('#suggestions').hide();#}
+                    {#    hide_suggestions();#}
+                });
+            </script>
+            {% if data['trip_name']|length %}
+            <input id="trip_name" placeholder="Название поездки (необязательно)" class="settings top" name="trip_name" form="base_settings" value="{{ data['trip_name'] }}">
+            {% else %}
             <input id="trip_name" placeholder="Название поездки (необязательно)" class="settings top" name="trip_name" form="base_settings">
-
-
-
-
+            {% endif %}
             <div class="calendar">
                 <div class="calendar-header">
                     <button id="prevBtn">←</button>
@@ -26,59 +67,30 @@
                 </div>
                 <div class="calendar-days"></div>
             </div>
-
             <div style="display: none"><p id="range"></p></div>
+            <span data-for-script="{{ data['dates'] }}" id="dates_for_script" style="display: none"></span>
             <script src="{{ url_for('static', filename='/js/calendar_new.js') }}"></script>
-
-
-
-{#             <div class="calendar-wrapper">#}
-{#                <button id="btnPrev" type="button">Предыдущий</button>#}
-{#                <button id="btnNext" type="button">Следующий</button>#}
-{#                <div id="divCal"></div>#}
-{#             </div>#}
-
-{#            <p>Дата поездки</p>#}
-{#            <div class="inline_settings">#}
-{#                <input type="number" min="1" max="31" step="1" class="settings days" id="number" name="number" form="base_settings" required>#}
-{#                <select class="settings month" id="month">#}
-{#                    <option value="Январь">Январь</option>#}
-{#                    <option value="Февраль">Февраль</option>#}
-{#                    <option value="Март">Март</option>#}
-{#                    <option value="Апрель">Апрель</option>#}
-{#                    <option value="Май">Май</option>#}
-{#                    <option value="Июнь">Июнь</option>#}
-{#                    <option value="Июль">Июль</option>#}
-{#                    <option value="Август">Август</option>#}
-{#                    <option value="Сентябрь">Сентябрь</option>#}
-{#                    <option value="Октябрь">Октябрь</option>#}
-{#                    <option value="Ноябрь">Ноябрь</option>#}
-{#                    <option value="Декабрь">Декабрь</option>#}
-{#                </select>#}
-{#            </div>#}
-{#            <p>Длительность поездки</p>#}
-{#            <div class="inline_settings">#}
-{#                <input type="range" id="duration" min="1" max="30" step="1" value="1" class="duration" form="base_settings" name="duration">#}
-{#                <p id="count_days_p"><output id="count_days"></output> Дней</p>#}
-{#                <script>#}
-{#                    const value =document.getElementById('count_days');#}
-{#                    const input =document.getElementById('duration');#}
-{#                    value.textContent = input.value;#}
-{#                    input.addEventListener("input", (event) => {#}
-{#                      value.textContent = event.target.value;#}
-{#                    });#}
-{#                </script>#}
-{#            </div>#}
-
             <div class="inline_settings">
-                <button class="type_trip">Деловая<input type="checkbox" id='business' class="check_type" checked="false" name="business"></button>
-                <button class="type_trip">Туристическая<input type="checkbox" id='vacation' class="check_type" checked="false" name="vacation"></button>
+            <button class="type_trip">Деловая<input type="checkbox" id='business' class="check_type" checked="false" name="business"></button>
+            <button class="type_trip">Туристическая<input type="checkbox" id='vacation' class="check_type" checked="false" name="vacation"></button>
             </div>
-
+{#            <script type="text/javascript" src="/static/js/base_settings.js"></script>#}
+            {% if data['business'] == 'true' %}
+{#                <script>document.querySelector('#business').setAttribute('checked', 'true')</script>#}
+                <script>
+                    document.querySelector('#business').classList.toggle('checked', 'true');
+                    document.querySelector('#business').setAttribute('checked', 'true');
+                </script>
+            {% endif %}
+            {% if data['vacation'] == 'true' %}
+                <script>
+                    document.querySelector('#vacation').classList.toggle('checked', 'true');
+                    document.querySelector('#vacation').setAttribute('checked', 'true');
+                </script>
+            {% endif %}
         </div>
     </div>
     <button id="new_trip">Далее</button>
-
     <form action="/settings" method="post" id="base_settings" style="display: none">
         <input form="base_settings" name="dates" id="submit_dates">
         <input form="base_settings" name="business" id="submit_business">
@@ -86,34 +98,6 @@
         <input type="submit" id="submit">
     </form>
 </div>
-
 <script type="text/javascript" src="/static/js/base_settings.js"></script>
-
-{#<script>#}
-{#    document.querySelector('#new_trip').addEventListener('click', function () {#}
-{#        document.querySelector('#submit_month').setAttribute('value', document.querySelector('#month').value);#}
-{#        document.querySelector('#submit_business').setAttribute('value', document.querySelector('#business').getAttribute('checked'));#}
-{#        document.querySelector('#submit_vacation').setAttribute('value', document.querySelector('#vacation').getAttribute('checked'));#}
-{#        document.querySelector('#submit').click();#}
-{#    })#}
-{#</script>#}
-{##}
-{#<script>#}
-{#    function toggle_check(elem, status){elem.classList.toggle('checked', status);#}
-{#                                        elem.setAttribute('checked', `${status}`);}#}
-{#</script>#}
-{#<script>#}
-{#    let buttons = document.querySelectorAll('.type_trip');#}
-{#    buttons.forEach((elem) => {#}
-{#        elem.addEventListener("click", function(event) {#}
-{#            let child = event.currentTarget.firstElementChild#}
-{#            if (child.getAttribute('checked')!='true'){#}
-{#                toggle_check(child, true)}#}
-{#            else{#}
-{#                toggle_check(child, false)}#}
-{#        })})#}
-{#</script>#}
-
-</script>
 </body>
 </html>

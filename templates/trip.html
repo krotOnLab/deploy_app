@@ -6,10 +6,112 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles_trip.css')}}">
 </head>
 <body>
+<div class="main_title">
+    <button class="back_lk" onclick="back_lk('{{ status }}')"><img src="/static/css/back.png"></button>
+    <p>{{ location }}</p>
+    <button class="possibilities_btn"><img src="/static/css/dots_three_vertical.png"></button>
+</div>
+<div class="possibilities possibilities_hide">
+    <span class="edit_list_categories"> * Редактировать список категорий</span>
+</div>
+<script>
+    document.querySelector('.possibilities_btn').addEventListener('click', (elem) => {
+        document.querySelector('.possibilities').classList.toggle('possibilities_hide', false)
+        document.querySelector('.possibilities').classList.toggle('possibilities_show', true)
+    })
+</script>
+
+<script>
+    function edit_list_categories() {
+        let categories = ''
+        document.querySelectorAll('.p_title_section').forEach((title) => {
+            if (title.parentElement.parentElement.classList.contains('user_categories')) {
+                return
+            } else {
+                if (title.classList.contains('title_show')) {
+                    categories = categories + title.querySelector('.list_title').textContent + ','
+                }
+            }
+        })
+        categories = categories.slice(0, categories.length - 1)
+
+        fetch('/edit_list_categories', {
+            method: 'POST', // Метод запроса
+            headers: {
+                'Content-Type': 'application/json' // Тип контента
+            },
+            {#body: {id_trip: trip.querySelector('#uuid').textContent}#}
+            body: JSON.stringify({categories: categories}) // Преобразуем объект в строку JSON
+        })
+            .then(response => response.text()) // Получаем текст ответа
+            {#.then(html => {#}
+            {#    // Вставляем полученный HTML в элемент на странице#}
+            {#    document.querySelector('html').innerHTML = html;#}
+            {#)#}
+            .catch(error => {
+                // Обработка ошибок
+                console.error('Ошибка:', error);
+            });
+    }
+
+    document.querySelector('.edit_list_categories').addEventListener('click', () => {
+        edit_list_categories()
+    })
+</script>
+
+{% macro weather_block(status) %}
+    {% if status=='true' %}
+        <div class="weather">
+            <p>Прогноз погоды</p>
+            <div class="body_forecast">
+                {% for day in weather %}
+                    <div class="day">
+                        <p class="first_row"><span>{{ day[0]['day'] }}</span> {{ day[0]['month'] }}</p>
+                        <p>{{ day[0]['day_week'] }}</p>
+                        <p class="t_day"><span>Днем:</span><span>{{ day[1] }}</span></p>
+                        <p class="t_night"><span>Ночью:</span><span>{{ day[2] }}</span></p>
+                    </div>
+                {% endfor %}
+            </div>
+            <p>Климат</p>
+            <div class="climat">
+                {% for month, item in data_climat.items()%}
+                    <div class="climat_month">
+                        <p class="month_year">{{ month }}</p>
+                        <p class="t_day"><span>Т.день</span><span>{{ item['t_max'] }}</span></p>
+                        <p class="t_night"><span>Т.ночь</span><span>{{ item['t_min'] }}</span></p>
+                        <p class="precipitation"><span>Осадки</span><span>{{ item['p'] }}</span></p>
+                        <p class="ufI"><span>УФ</span><span>{{ item['ufI'] }}</span></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro new_item() %}
+    <div class="list_item new_item">
+        <img src="{{ url_for('static', filename='css/plus.png') }}" alt="+">
+        <input type="text" class="text_new_item"  onchange="create_item(this.parentElement, this.value)" placeholder="Новый элемент">
+    </div>
+{% endmacro %}
+{% macro buttons_item() %}
+    <div class="btns_count">
+        <button class="btn+ count"  name="plus" onclick="count_items(this.parentElement.parentElement, '+')">+</button>
+        <span name="number" class="number count hide" oninput="check_count_items(this)">1</span>
+        <button name="minus" class="btn- count" onclick="count_items(this.parentElement.parentElement, '-')">-</button>
+    </div>
+    <button class="btn_list_item" onclick="count_btns_trip_list(this)"></button>
+     <div class="div_tools">
+        <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'list_item')">Изменить</button>
+        <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+    </div>
+    <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+{% endmacro %}
+{{ weather_block(status_weather) }}
 <div class="trip_list"  id="trip_list">
     <div class="list">
         <div class="accommodation chapter">
-
                 <div class="p_title_section title_hide">
                     <p class="title list_title hotel">Отель</p>
                      <div class="div_tools">
@@ -27,9 +129,8 @@
                         <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Бронирование номера</span></label>
                         {% include 'trip_list_btns.html' %}
                     </div>
-                    {% include 'new_item_in_trip_list.html' %}
+                    {{ new_item() }}
                 </div>
-
                 <div class="p_title_section title_hide">
                     <p class="title list_title rental">Аренда</p>
                      <div class="div_tools">
@@ -43,9 +144,8 @@
                         <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Снять квартиру|дом|комнату</span></label>
                         {% include 'trip_list_btns.html' %}
                     </div>
-                    {% include 'new_item_in_trip_list.html' %}
+                    {{ new_item() }}
                 </div>
-
                 <div class="p_title_section title_hide">
                     <p class="title list_title family_fr">Родственники|Друзья</p>
                      <div class="div_tools">
@@ -63,9 +163,8 @@
                         <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подарок</span></label>
                         {% include 'trip_list_btns.html' %}
                     </div>
-                    {% include 'new_item_in_trip_list.html' %}
+                    {{ new_item() }}
                 </div>
-
                 <div class="p_title_section title_hide">
                     <p class="title list_title second_home">Второй дом</p>
                      <div class="div_tools">
@@ -79,9 +178,8 @@
                         <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ключи от квартиры|дома</span></label>
                         {% include 'trip_list_btns.html' %}
                     </div>
-                    {% include 'new_item_in_trip_list.html' %}
+                    {{ new_item() }}
                 </div>
-
                 <div class="p_title_section title_hide">
                     <p class="title list_title camping">Кемпинг</p>
                      <div class="div_tools">
@@ -143,12 +241,10 @@
                         <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Универсальный нож</span></label>
                         {% include 'trip_list_btns.html' %}
                     </div>
-                    {% include 'new_item_in_trip_list.html' %}
+                    {{ new_item() }}
                 </div>
-
         </div>
         <div class="transportation chapter">
-
             <div class="p_title_section title_hide">
                 <p class="title list_title airplane">Самолет</p>
                  <div class="div_tools">
@@ -178,9 +274,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Подушка под шею</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title car">Машина</p>
                  <div class="div_tools">
@@ -206,9 +301,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Детское автокресло</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title train">Поезд</p>
                  <div class="div_tools">
@@ -226,9 +320,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Книга|Сканворды|Игры</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title bus">Автобус</p>
                  <div class="div_tools">
@@ -242,11 +335,10 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Таблетки, если укачивает</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
         </div>
         <div class="items chapter">
-
             <div class="p_title_section title_hide">
                 <p class="title list_title essentials">Предметы первой нуждаемости</p>
                  <div class="div_tools">
@@ -308,9 +400,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Часы</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title toiletries">Личная гигиена</p>
                  <div class="div_tools">
@@ -392,10 +483,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Средства для волос</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
-
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title international">Путешествие за границу</p>
                  <div class="div_tools">
@@ -441,9 +530,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Ручка</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title clothes">Одежда</p>
                  <div class="div_tools">
@@ -465,7 +553,6 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Футболка</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-
                 <div class="list_item">
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Носки</span></label>
                     {% include 'trip_list_btns.html' %}
@@ -510,9 +597,24 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Куртка</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Джинсы</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шорты</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пальто</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Жилетка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title formal_clothes">Официально-деловая одежда</p>
                  <div class="div_tools">
@@ -558,11 +660,65 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Чулки</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
+            </div>
+            <div class="p_title_section title_hide">
+                <p class="title list_title winter_clothes">Одежда на холодный сезон</p>
+                 <div class="div_tools">
+                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>
+                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>
+                </div>
+                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
+            </div>
+            <div class="winter_clothes section">
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Варежки|Перчатки</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Водолазка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Свитер</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Кардиган</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Жакет</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шапка</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Лыжный костюм</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Термобелье</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Пуховое пальто</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Куртка зимняя</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                <div class="list_item">
+                    <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Шарф</span></label>
+                    {% include 'trip_list_btns.html' %}
+                </div>
+                {{ new_item() }}
             </div>
         </div>
         <div class="activities chapter">
-
             <div class="p_title_section title_hide">
                 <p class="title list_title work">Работа</p>
                  <div class="div_tools">
@@ -600,9 +756,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Рабочее удостоверение</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title beach">Пляж</p>
                  <div class="div_tools">
@@ -644,9 +799,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Набор для постройки замка</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title swimming">Плавание</p>
                  <div class="div_tools">
@@ -672,9 +826,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Name</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title dinner">Ужин</p>
                  <div class="div_tools">
@@ -732,9 +885,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Колготки</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title run">Бег</p>
                  <div class="div_tools">
@@ -760,9 +912,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Беговая футболка</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title cycling">Велотуризм</p>
                  <div class="div_tools">
@@ -804,9 +955,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Запасная велосипелная камера</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title hiking">Хайкинг</p>
                  <div class="div_tools">
@@ -868,9 +1018,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Носки (нехлопковые)</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title snow_sport">Зимний спорт</p>
                  <div class="div_tools">
@@ -924,9 +1073,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Прокат зимнего снаряжения</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title tourism">Туризм</p>
                  <div class="div_tools">
@@ -1024,9 +1172,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Клещедер</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title gym">Спортивный зал</p>
                  <div class="div_tools">
@@ -1076,9 +1223,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Навесной замок</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title photography">Фотография</p>
                  <div class="div_tools">
@@ -1124,9 +1270,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Объективы и линзы</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title motocycle">Мотоцикл</p>
                  <div class="div_tools">
@@ -1184,11 +1329,10 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Мотоциклетные перчатки</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
         </div>
         <div class="family chapter">
-
             <div class="p_title_section title_hide">
                 <p class="title list_title to_do_list">Список дел</p>
                  <div class="div_tools">
@@ -1234,9 +1378,8 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Уменьшить температуру термостата</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
             <div class="p_title_section title_hide">
                 <p class="title list_title baby">Ребенок</p>
                  <div class="div_tools">
@@ -1354,33 +1497,33 @@
                     <label class="check_list_item_label"><input type="checkbox" class="check_list_item" ><span>Вода и/или сок</span></label>
                     {% include 'trip_list_btns.html' %}
                 </div>
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>
-
         </div>
+        {% import 'macros_for_trip.html' as m%}
         <div class="user_categories chapter">
             <p class="title">Пользовательские категории</p>
+
+            {% for section, section_data in categories.items() %}
+{#            <div class="{{ chapter }} chapter">#}
+                {% if section_data['status'] == 'f' %}
+                    <div class="p_title_section title_hide">
+                {% else %}
+                    <div class="p_title_section title_show">
+                {% endif %}
+                    <p class="title list_title {{ section_data['name_en'] }}">{{ section_data['name_ru'] }}</p>
+                    {{ m.tools() }}
+                    </div>
+                <div class="{{ section_data['name_en'] }} section" >
+                {% for list_item in section_data['data'] %}
+                        {{ m.list_item_macro(list_item['name'], list_item['name_status'], list_item['number']) }}
+                {% endfor %}
+                {{ m.new_item() }}
+                </div>
+{#            </div>#}
+            {% endfor %}
+
             <input type="text" class="new_category_input text_new_item" placeholder="Новая категория" onchange="create_category(this)">
-
-
-
-
-{#            <div class="p_title_section">#}
-{#                <p class="title list_title user_category_${count} title_show">${input.value}</p>#}
-{#                 <div class="div_tools">#}
-{#                    <button class="tools edit_btn" onclick="edit_element(this.parentElement, 'category')">Изменить</button>#}
-{#                    <button class="tools delete_btn" onclick="delete_elem(this.parentElement.parentElement)">Удалить</button>#}
-{#                </div>#}
-{#                <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>#}
-{#            </div>#}
-{#            <div class="user_category_${count} section">#}
-{#                {% include 'new_item_in_trip_list.html' %}#}
-{#            </div>#}
-
-
-
-
-
         </div>
         <script>
             function create_item(elem, value_item) {
@@ -1407,22 +1550,15 @@
                 <button class="icon_open_tools" onclick="open_tools(this)"><img src="../static/css/dots_three_vertical.png"></button>
             </div>
             <div class="user_category_${count} section">
-                {% include 'new_item_in_trip_list.html' %}
+                {{ new_item() }}
             </div>`
                 document.querySelector('.new_category_input').insertAdjacentHTML('beforebegin', new_category)
                 input.value = '';
                 input.blur();
-                {#console.log(document.querySelector('.user_categories').querySelector('.list_title:last-of-type'))#}
-                {#console.log(document.querySelector('.user_categories').querySelectorAll('.p_title_section'))#}
                 let titles = document.querySelector('.user_categories').querySelectorAll('.list_title')
                 titles[titles.length-1].addEventListener('click', (event) => toggle_list_items(event))
-                {#console.log([document.querySelector('.user_categories').querySelectorAll('.p_title_section').length-1])#}
-                {#document.querySelector('.user_categories').querySelector('.list_title:last-of-type').addEventListener('click', (event) => toggle_list_items(event))#}
             }
         </script>
-
-
-
         <span id="service" style="display: none">{{ data }}</span>
         <script>
                 let data = document.getElementById('service').innerHTML.split(',')
@@ -1446,85 +1582,65 @@
                     p.addEventListener('click', (event) => toggle_list_items(event))
                 });
         </script>
-
-{#        <script>#}
-{#                let data = document.getElementById('service').innerHTML.split(',')#}
-{#                let list_p = Array.from(document.getElementById('trip_list').getElementsByTagName('p'));#}
-{#                let mas_p = [];#}
-{#                list_p.forEach(element => mas_p.push([element.classList[2], element]));#}
-{#                let map_p = new Map(mas_p);#}
-{#                data.forEach(el =>{#}
-{#                    map_p.get(el).classList.toggle('title_show', true);#}
-{#                });#}
-{#        </script>#}
-
-
         <script>
             document.querySelectorAll('.check_list_item_label').forEach((label) => {
                 label.lastElementChild.addEventListener('click', (event) => event_click_list_item(event))
             })
         </script>
-
-        </div>
-        {% include 'calendar_v2.html' %}
-        <div class="list_and_calendar">
-            <button class="pages disable_button" disabled id="list">
-                Список
-            </button>
-            <button class="pages" id="calendar">
-                Календарь поездки
-            </button>
-            <button class="save" id="save" onclick="save_data()">
-                Сохранить
-            </button>
-        </div>
-        <script>
-            btns = document.querySelectorAll('.pages')
-            btns.forEach((btn) => {
-                btn.addEventListener('click', (e) =>{
-                    if (e.currentTarget.classList.contains('disable_button')===false){
-                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
-                        neighbour.classList.toggle('disable_button', false)
-                        neighbour.disabled = false
-                        e.currentTarget.classList.toggle('disable_button', true)
-                        e.currentTarget.disabled = true
-                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
-                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
-                    }
-                })
-            })
-        </script>
-
-        <script>
-            document.querySelectorAll('.actions').forEach((btn_actions) => {
-                btn_actions.addEventListener('click', (event) => card_actions(event))
-            })
-        </script>
-        <script>
-            document.querySelector('.create_action').addEventListener('change', (btn_create_action) =>{
-                inserted_elem = ` <div class="action">
-                    <input type="text" class="action_name input_action">
-                    <input type="time" class="time_start input_action"><input type="time" class="time_end input_action">
-                    <button class="delete_action" onclick='delete_elem(this.parentElement)'><img src='/static/css/delete.png'></button>
-                </div>`
-                body_action = btn_create_action.currentTarget.previousElementSibling
-                body_action.insertAdjacentHTML('beforeend', inserted_elem)
-                body_action.lastElementChild.querySelector('.action_name').value = btn_create_action.currentTarget.value
-                btn_create_action.currentTarget.value = ''
-                btn_create_action.currentTarget.blur();
-                save_data_to_card()
-                body_action.lastElementChild.querySelectorAll('input').forEach((input) => {
-                    input.addEventListener('input', () => save_data_to_card())
-                })
-                body_action.lastElementChild.querySelector('.delete_action').addEventListener('click', () => save_data_to_card())
-            })
-        </script>
-
-
     </div>
-
+    {% include 'calendar_v2.html' %}
+    <div class="list_and_calendar">
+        <button class="pages disable_button" disabled id="list">
+            Список
+        </button>
+        <button class="pages" id="calendar">
+            Календарь поездки
+        </button>
+        <button class="save" id="save" onclick="save_data()">
+            Сохранить
+        </button>
+    </div>
+    <script>
+        btns = document.querySelectorAll('.pages')
+        btns.forEach((btn) => {
+            btn.addEventListener('click', (e) =>{
+                if (e.currentTarget.classList.contains('disable_button')===false){
+                    neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
+                    neighbour.classList.toggle('disable_button', false)
+                    neighbour.disabled = false
+                    e.currentTarget.classList.toggle('disable_button', true)
+                    e.currentTarget.disabled = true
+                    document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
+                    document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
+                }
+            })
+        })
+    </script>
+    <script>
+        document.querySelectorAll('.actions').forEach((btn_actions) => {
+            btn_actions.addEventListener('click', (event) => card_actions(event))
+        })
+    </script>
+    <script>
+        document.querySelector('.create_action').addEventListener('change', (btn_create_action) =>{
+            inserted_elem = ` <div class="action">
+                <input type="text" class="action_name input_action">
+                <input type="time" class="time_start input_action"><input type="time" class="time_end input_action">
+                <button class="delete_action" onclick='delete_elem(this.parentElement)'><img src='/static/css/delete.png'></button>
+            </div>`
+            body_action = btn_create_action.currentTarget.previousElementSibling
+            body_action.insertAdjacentHTML('beforeend', inserted_elem)
+            body_action.lastElementChild.querySelector('.action_name').value = btn_create_action.currentTarget.value
+            btn_create_action.currentTarget.value = ''
+            btn_create_action.currentTarget.blur();
+            save_data_to_card()
+            body_action.lastElementChild.querySelectorAll('input').forEach((input) => {
+                input.addEventListener('input', () => save_data_to_card())
+            })
+            body_action.lastElementChild.querySelector('.delete_action').addEventListener('click', () => save_data_to_card())
+        })
+    </script>
 </div>
-
 <div class="modalBackground">
     <div id="modal_window_edit">
         <p class="old_name"></p>
@@ -1537,69 +1653,11 @@
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/trip.js') }}"></script>
-
 <form action="/save_trip" method="post" class="save_data_trip">
     <input type="text" id="trip_data" name="trip_data">
     <input type="text" id="calendar_data" name="calendar_data">
     <input type="text" id="saved_categories" name="saved_categories">
     <input type="submit" id="submit_data_trip">
 </form>
-
-</body>
-
-
-{#<script>#}
-{#    function data_collection (){#}
-{#        trip_dict = {}#}
-{#        document.querySelectorAll('.chapter').forEach((chapter) => {#}
-{#            chapter_name = chapter.classList[0]#}
-{#            sections_data = {}#}
-{#            chapter.querySelectorAll('.section').forEach((section) => {#}
-{#                section_items_data = Array()#}
-{#                section.querySelectorAll('.list_item').forEach((item) => {#}
-{#                    if (item.classList.contains('new_item') === false){#}
-{#                        item_data = {}#}
-{#                        name = item.firstElementChild.lastElementChild.textContent#}
-{#                        name_status = String(item.firstElementChild.lastElementChild.classList.contains('del_element_label'))#}
-{#                        if (item.querySelector('.number').classList.contains('hide')){number = 0;}#}
-{#                        else{number = item.querySelector('.number').textContent;}#}
-{#                        item_data["name"] = name#}
-{#                        item_data["name_status"] = name_status#}
-{#                        item_data["number"] = number#}
-{#                        section_items_data.push(item_data)#}
-{#                    }#}
-{#                })#}
-{#                section_name = section.classList[0]#}
-{#                sections_data[section_name] = section_items_data#}
-{#            })#}
-{#            sections_dict = {}#}
-{#            chapter.querySelectorAll('.list_title').forEach((label_section) => {#}
-{#                section_name = label_section.classList[2]#}
-{#                section_status = label_section.classList.contains('title_show')#}
-{#                section_name_ru = label_section.textContent#}
-{#                sections_dict[section_name] = {"name_en": section_name, "name_ru": section_name_ru,#}
-{#                    "status": section_status, "data": sections_data[section_name]}#}
-{#            })#}
-{##}
-{#            trip_dict[chapter_name] = sections_dict#}
-{#        })#}
-{#        calendar_data = Array()#}
-{#        calendar = document.querySelector('.calendar_table')#}
-{#        calendar.querySelectorAll('.card').forEach((card) => {#}
-{#            calendar_day = {}#}
-{#            calendar_day["day"] = card.querySelector('.day_month').textContent#}
-{#            calendar_day["month"] = card.querySelector('.month').textContent#}
-{#            calendar_day["day_week"] = card.querySelector('.day_week').textContent#}
-{#            calendar_day["actions"] = card.querySelector('.service_span_actions').textContent#}
-{#            calendar_data.push(calendar_day)#}
-{#        })#}
-{#        console.log(trip_dict)#}
-{#        document.querySelector('#trip_data').value = JSON.stringify(trip_dict)#}
-{#        document.querySelector('#calendar_data').value = JSON.stringify(calendar_data)#}
-{##}
-{#    }#}
-{#</script>#}
-
-
 </body>
 </html>

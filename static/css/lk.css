@@ -8,8 +8,6 @@ html, body {
     font-size: 30px;
     width: 100%;
     overflow-y: auto;
-    /*position: absolute;*/
-    /*overflow-x: hidden;*/
 }
 .lk{
     width: 100%;
@@ -19,9 +17,10 @@ html, body {
 }
 .trip_list{
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     flex-direction: column;
     width: inherit;
+    padding-left: 2em;
 }
 #form_lk{
     display: flex;
@@ -29,20 +28,40 @@ html, body {
     width: 100%;
 }
 .trip{
+    display: inline-flex;
+    /*justify-content: space-between;*/
+}
+.btn_del{
+    margin: 1.24em 0;
+    border-radius: 0 2.5em 2.5em 0;
+    border: black 2px solid;
+    border-left: 0;
+    background-color: #D48166;;
+}
+.description_trip{
     display: flex;
     width: 80%;
     flex-direction: column;
     border: black 2px solid;
-    border-radius: 1em;
+    border-right: 0;
+    border-radius: 1em 0 0 1em;
     margin: 0.5em 0;
     padding: 1em;
     box-shadow: 0.3em 0.2em 0.2em #8f8f8f;
     font-size: 1.1em;
     background-color: #D48166;
 }
-.trip > p{
+.description_trip > p{
     margin: 0.2em 0;
     color: #343939;
+}
+.first_row{
+    display: flex;
+    justify-content: space-between;
+}
+.first_row > button {
+    background-color: #D48166;
+    border: none;
 }
 .title{
     width: 100%;
@@ -71,40 +90,38 @@ html, body {
 .footer_lk>p{
     font-size: 1.7em;
 }
-
-
-
-
-/*.calendar {*/
-/*    max-width: 300px;*/
-/*    margin: 0 auto;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.calendar-header {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-
-/*.calendar-days {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*}*/
-
-/*.day {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    line-height: 40px;*/
-/*    border: 1px solid #ccc;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.prev-month {*/
-/*    color: lightgray;*/
-/*}*/
-
-/*.selected {*/
-/*    background-color: lightblue;*/
-/*}*/
+.show{
+    display: block;
+    animation: list_ani_show 3s forwards;
+}
+.hide{
+    display: none;
+    animation: list_ani_hide 500ms forwards;
+}
+@keyframes list_ani_show {
+    from{opacity: 0;}
+    to{ opacity: 1;}
+}
+@keyframes list_ani_hide {
+    from{opacity: 1;}
+    to{display: none;opacity: 0;}
+}
+.text{
+    padding: 0 1em;
+}
+.materials{
+    display: flex;
+}
+.materials>img{
+    align-self: flex-end;
+    margin-right: 2em;
+}
+.materials>span{
+    margin: auto;
+}
+.text{
+    text-indent: 3em;
+    padding: 0.5em 1em;
+    text-align: justify;
+    line-height: 2em;
+}

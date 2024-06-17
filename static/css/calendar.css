@@ -6,7 +6,6 @@
     flex-direction: column;
     align-items: center;
 }
-
 .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -14,16 +13,12 @@
     margin-bottom: 10px;
     width: 90%;
 }
-
 .calendar-days {
     display: flex;
     flex-wrap: wrap;
-    /*background-color: #D48166;*/
-    /*color: white;*/
     border: 0.1em solid #373A36;
     width: 90%;
 }
-
 .day {
     width: 14%;
     height: 2em;
@@ -44,7 +39,6 @@
 .prev-month {
     color: lightgray;
 }
-
 .selected {
     background-color: lightblue;
 }

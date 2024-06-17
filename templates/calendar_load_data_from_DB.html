@@ -1,97 +1,97 @@
 <div class="calendar">
     <div class="trip_calendar">
-    <p class="title title_calendar">План поездки</p>
-       <table class="calendar_table">
-            {% macro render_full_tr(first, second, third) -%}
-                <tr class="calendar_tr">
-                     <td class="elem_calendar">
-                         <div class="card">
-                             <p class="first_row">
-                                 <span class="day_month">{{ first.day }}</span>
-                                <span class="month">{{ first.month }}</span>
-                             </p>
-                             <p><span class="day_week">{{ first.day_week }}</span></p>
-                             <button class="actions">Активности</button>
-                             <span class="service_span_actions" style="display: none">{{ first.actions }}</span>
-                         </div>
-                    </td>
-                    <td class="elem_calendar">
-                        <div class="card">
-                            <p class="first_row">
-                               <span class="day_month">{{ second.day }}</span>
-                                <span class="month">{{ second.month }}</span>
-                            </p>
-                            <p><span class="day_week">{{ second.day_week }}</span></p>
-                            <button class="actions">Активности</button>
-                            <span class="service_span_actions" style="display: none">{{ second.actions }}</span>
-                        </div>
-                    </td>
-                    <td class="elem_calendar">
-                        <div class="card">
-                            <p class="first_row">
-                                <span class="day_month">{{ third.day }}</span>
-                                <span class="month">{{ third.month }}</span>
-                            </p>
-                            <p><span class="day_week">{{ third.day_week }}</span></p>
-                           <button class="actions">Активности</button>
-                            <span class="service_span_actions" style="display: none">{{ third.actions }}</span>
-                        </div>
-                    </td>
-                </tr>
-            {%- endmacro %}
-            {% macro render_tr_2(first, second) -%}
-                <tr class="calendar_tr">
-                     <td class="elem_calendar">
-                         <div class="card">
-                             <p class="first_row">
-                                 <span class="day_month">{{ first.day }}</span>
-                                <span class="month">{{ first.month }}</span>
-                             </p>
-                            <p><span class="day_week">{{ first.day_week }}</span></p>
-                             <button class="actions">Активности</button>
-                             <span class="service_span_actions" style="display: none">{{ first.actions }}</span>
-                         </div>
-                    </td>
-                    <td class="elem_calendar">
-                        <div class="card">
-                            <p class="first_row">
-                                <span class="day_month">{{ second.day }}</span>
-                                <span class="month">{{ second.month }}</span>
-                            </p>
-                            <p><span class="day_week">{{ second.day_week }}</span></p>
-                            <button class="actions">Активности</button>
-                            <span class="service_span_actions" style="display: none">{{ second.actions }}</span>
-                        </div>
-                    </td>
-                </tr>
-            {%- endmacro %}
-            {% macro render_tr_1(elem) -%}
-                <tr class="calendar_tr">
-                     <td class="elem_calendar">
-                         <div class="card">
-                             <p>
-                                 <span class="day_month">{{ elem.day }}</span>
-                                <span class="month">{{ elem.month }}</span>
-                             </p>
-                            <p><span class="day_week">{{ elem.day_week }}</span></p>
-                            <button class="actions">Активности</button>
-                             <span class="service_span_actions" style="display: none">{{ elem.actions }}</span>
-                         </div>
-                    </td>
-                </tr>
-            {%- endmacro %}
-            {% for i in range((period|length/3|round(precision=0, method="floor") + 1)|int) %}
-                {% if i < (loop.length - 1)  %}
-                    {{ render_full_tr(period[i*3], period[i * 3 + 1], period[i * 3 + 2] ) }}
-                {% else %}
-                    {% if (period|length - (i*3)) == 2 %}
-                        {{ render_tr_2(period[i*3], period[i * 3 + 1]) }}
-                    {% elif (period|length - (i*3)) == 1 %}
-                        {{ render_tr_1(period[i*3]) }}
+        <p class="title title_calendar">План поездки</p>
+           <table class="calendar_table">
+                {% macro render_full_tr(first, second, third) -%}
+                    <tr class="calendar_tr">
+                         <td class="elem_calendar">
+                             <div class="card">
+                                 <p class="first_row">
+                                     <span class="day_month">{{ first.day }}</span>
+                                    <span class="month">{{ first.month }}</span>
+                                 </p>
+                                 <p><span class="day_week">{{ first.day_week }}</span></p>
+                                 <button class="actions">Активности</button>
+                                 <span class="service_span_actions" style="display: none">{{ first.actions }}</span>
+                             </div>
+                        </td>
+                        <td class="elem_calendar">
+                            <div class="card">
+                                <p class="first_row">
+                                   <span class="day_month">{{ second.day }}</span>
+                                    <span class="month">{{ second.month }}</span>
+                                </p>
+                                <p><span class="day_week">{{ second.day_week }}</span></p>
+                                <button class="actions">Активности</button>
+                                <span class="service_span_actions" style="display: none">{{ second.actions }}</span>
+                            </div>
+                        </td>
+                        <td class="elem_calendar">
+                            <div class="card">
+                                <p class="first_row">
+                                    <span class="day_month">{{ third.day }}</span>
+                                    <span class="month">{{ third.month }}</span>
+                                </p>
+                                <p><span class="day_week">{{ third.day_week }}</span></p>
+                               <button class="actions">Активности</button>
+                                <span class="service_span_actions" style="display: none">{{ third.actions }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                {%- endmacro %}
+                {% macro render_tr_2(first, second) -%}
+                    <tr class="calendar_tr">
+                         <td class="elem_calendar">
+                             <div class="card">
+                                 <p class="first_row">
+                                     <span class="day_month">{{ first.day }}</span>
+                                    <span class="month">{{ first.month }}</span>
+                                 </p>
+                                <p><span class="day_week">{{ first.day_week }}</span></p>
+                                 <button class="actions">Активности</button>
+                                 <span class="service_span_actions" style="display: none">{{ first.actions }}</span>
+                             </div>
+                        </td>
+                        <td class="elem_calendar">
+                            <div class="card">
+                                <p class="first_row">
+                                    <span class="day_month">{{ second.day }}</span>
+                                    <span class="month">{{ second.month }}</span>
+                                </p>
+                                <p><span class="day_week">{{ second.day_week }}</span></p>
+                                <button class="actions">Активности</button>
+                                <span class="service_span_actions" style="display: none">{{ second.actions }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                {%- endmacro %}
+                {% macro render_tr_1(elem) -%}
+                    <tr class="calendar_tr">
+                         <td class="elem_calendar">
+                             <div class="card">
+                                 <p>
+                                     <span class="day_month">{{ elem.day }}</span>
+                                    <span class="month">{{ elem.month }}</span>
+                                 </p>
+                                <p><span class="day_week">{{ elem.day_week }}</span></p>
+                                <button class="actions">Активности</button>
+                                 <span class="service_span_actions" style="display: none">{{ elem.actions }}</span>
+                             </div>
+                        </td>
+                    </tr>
+                {%- endmacro %}
+                {% for i in range((period|length/3|round(precision=0, method="floor") + 1)|int) %}
+                    {% if i < (loop.length - 1)  %}
+                        {{ render_full_tr(period[i*3], period[i * 3 + 1], period[i * 3 + 2] ) }}
+                    {% else %}
+                        {% if (period|length - (i*3)) == 2 %}
+                            {{ render_tr_2(period[i*3], period[i * 3 + 1]) }}
+                        {% elif (period|length - (i*3)) == 1 %}
+                            {{ render_tr_1(period[i*3]) }}
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            {% endfor %}
-        </table>
+                {% endfor %}
+           </table>
     </div>
      <div class="actions_window">
         <div class="actions_title">

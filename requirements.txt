@@ -5,3 +5,4 @@ sqlalchemy
 pandas
 flask_bcrypt
 requests
+locale

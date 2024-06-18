@@ -15,7 +15,7 @@ function toggle_list_items(event) {
 function delete_trip(elem){
     let trip = elem.parentElement
     trip.style.cssText = 'display:None;';
-                    fetch('/delete_trip', {
+    fetch('/delete_trip', {
             method: 'POST', // Метод запроса
             headers: {
                 'Content-Type': 'application/json' // Тип контента

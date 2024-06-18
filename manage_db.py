@@ -2,7 +2,7 @@ import json
 
 from sqlalchemy import update, URL, create_engine, insert, text, or_, func
 from sqlalchemy.orm import sessionmaker
-from DB import Users, Trips, UserTrips, SavedCategory, ClimatData, DymanicSearchTips, MeteostationAverageDATA
+from DB import Users, Trips, UserTrips, SavedCategory, ClimatData, DymanicSearchTips, MeteostationAverageDATA, Pars
 import uuid
 from flask_bcrypt import Bcrypt
 
@@ -145,8 +145,8 @@ try:
 
         # print(query_s)
         data = session.query(DymanicSearchTips.name, DymanicSearchTips.region, DymanicSearchTips.country).filter(or_(
-            DymanicSearchTips.name.ilike(f'%{query_s}'), DymanicSearchTips.region.ilike(f'%{query_s}'),
-            DymanicSearchTips.country.ilike(f'%{query_s}'))).order_by(DymanicSearchTips.name).limit(5)
+            DymanicSearchTips.name.ilike(f'%{query_s}%'), DymanicSearchTips.region.ilike(f'%{query_s}%'),
+            DymanicSearchTips.country.ilike(f'%{query_s}%'))).order_by(DymanicSearchTips.name).limit(5)
         # print(data)
         # session.flush()
         # temp = [{'name': item[0], 'region': item[1], 'country': item[2]} for item in data]
@@ -157,15 +157,18 @@ try:
     def get_saved_categories_user(login):
         categories = session.query(SavedCategory.saved_category).filter(SavedCategory.login==login).first()
         # session.flush()
-        if categories is None:
+        print(categories)
+        if categories[0]['saved_categories'] == '{}':
             return {}
         else:
-            print(categories)
             try:
+
                 categories = eval(categories[0]['saved_categories'])
-                return eval(categories[0]['saved_categories'])
+                print(categories)
+                return categories
             except Exception as e:
                 print(e)
+                print(categories[0]['saved_categories'])
                 return categories[0]['saved_categories']
             # print(eval(categories[0]['saved_categories']))
 
@@ -176,6 +179,40 @@ try:
         print(f'delete trip{id_trip}')
         session.commit()
 
+
+    def pars_ini():
+        session.add(Pars(cur_user='', cur_trip='', base_params={}))
+        session.commit()
+
+
+    def pars_del():
+        session.query(Pars).delete()
+        session.commit()
+
+    def get_pars():
+        pars = session.query(Pars.cur_user, Pars.cur_trip, Pars.base_params).first()
+        print(pars)
+        return pars
+
+
+
+    def set_pars(p):
+        print(p)
+        if p[0] == 'user':
+            q = session.execute(text(f"UPDATE pars SET cur_user='{p[1]}'"))
+            session.commit()
+            # session.query(Pars).first().update({Pars.cur_user: p[1]})
+            print('update user')
+        elif p[0] == 'trip':
+            q = session.execute(text(f"UPDATE pars SET cur_trip='{p[1]}'"))
+            session.commit()
+            # session.query(Pars).update(Pars.cur_trip == p[1])
+            print('update trip')
+        elif p[0] == 'base_params':
+            q = session.execute(text(f"UPDATE pars SET base_params='{json.dumps(p[1], ensure_ascii=False)}'"))
+            session.commit()
+            print('update base_params')
+            # session.query(Pars).update(Pars.cur_trip == p[1])
 
 
 except Exception as e:

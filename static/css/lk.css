@@ -125,3 +125,14 @@ html, body {
     text-align: justify;
     line-height: 2em;
 }
+@media (max-width: 768px) {
+    
+}
+@media (max-width: 1920px) {
+  .lk {
+        width: 900px;
+      flex-wrap: wrap;
+      position: absolute;
+      left: 25%;
+  }
+}

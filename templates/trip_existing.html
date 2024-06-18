@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles_trip.css')}}">
 </head>
 <body>
-
-
+<div class="main_wrapper">
 <div class="main_title">
     <button class="back_lk" onclick="back_lk('{{ status }}')"><img src="/static/css/back.png"></button>
     <p>{{ location }}</p>
     <button class="possibilities_btn"><img src="/static/css/dots_three_vertical.png"></button>
 </div>
+<div class="wrapper">
 <div class="possibilities possibilities_hide">
     <span class="edit_list_categories"> * Редактировать список категорий</span>
 </div>
@@ -25,7 +25,7 @@
 
 
 <div class="weather">
-    <p>Прогноз погоды</p>
+    <p>Архивные метеоданные</p>
     <div class="body_forecast">
         {% for day in weather %}
             <div class="day">
@@ -183,33 +183,7 @@
 
 
         {% include 'calendar_v2.html' %}
-        <div class="list_and_calendar">
-            <button class="pages disable_button" disabled id="list">
-                Список
-            </button>
-            <button class="pages" id="calendar">
-                Календарь поездки
-            </button>
-            <button class="save" id="save" onclick="save_data()">
-                Сохранить
-            </button>
-        </div>
-        <script>
-            btns = document.querySelectorAll('.pages')
-            btns.forEach((btn) => {
-                btn.addEventListener('click', (e) =>{
-                    if (e.currentTarget.classList.contains('disable_button')==false){
-                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
-                        neighbour.classList.toggle('disable_button', false)
-                        neighbour.disabled = false
-                        e.currentTarget.classList.toggle('disable_button', true)
-                        e.currentTarget.disabled = true
-                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
-                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
-                    }
-                })
-            })
-        </script>
+
 
 {#        <script>#}
 {#            document.querySelectorAll('.actions').forEach((btn_actions) => {#}
@@ -331,6 +305,35 @@
         <div style="display:none" class="save_adress"></div>
     </div>
 </div>
+<div class="list_and_calendar">
+            <button class="pages disable_button" disabled id="list">
+                Список
+            </button>
+            <button class="pages" id="calendar">
+                Календарь поездки
+            </button>
+            <button class="save" id="save" onclick="save_data()">
+                Сохранить
+            </button>
+        </div>
+        <script>
+            btns = document.querySelectorAll('.pages')
+            btns.forEach((btn) => {
+                btn.addEventListener('click', (e) =>{
+                    if (e.currentTarget.classList.contains('disable_button')===false){
+                        neighbour = e.currentTarget.parentElement.querySelector('.disable_button')
+                        neighbour.classList.toggle('disable_button', false)
+                        neighbour.disabled = false
+                        e.currentTarget.classList.toggle('disable_button', true)
+                        e.currentTarget.disabled = true
+                        console.log(document.querySelector(`.${e.currentTarget.getAttribute('id')}`))
+                        console.log(document.querySelector(`.${neighbour.getAttribute('id')}`))
+                        document.querySelector(`.${e.currentTarget.getAttribute('id')}`).style.cssText = 'display: flex;'
+                        document.querySelector(`.${neighbour.getAttribute('id')}`).style.cssText = 'display:none;'
+                    }
+                })
+            })
+        </script>
 <script src="{{ url_for('static', filename='js/trip.js') }}"></script>
 <form action="/edit_trip" method="post" class="save_data_trip">
     <input type="text" id="trip_data" name="trip_data">
@@ -339,5 +342,7 @@
     <input type="submit" id="submit_data_trip">
 </form>
 <script src="{{ url_for('static', filename='js/trip.js') }}"></script>
+</div>
+</div>
 </body>
 </html>

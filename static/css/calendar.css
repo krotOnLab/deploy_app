@@ -42,3 +42,26 @@
 .selected {
     background-color: lightblue;
 }
+.week{
+    width: 90%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.week_day{
+    display: inline-flex;
+    width: 14%;
+    /*text-align: center;*/
+    /*align-content: center;*/
+    justify-content: center;
+    /*flex-wrap: wrap;*/
+    padding-bottom: 0.2em;
+}
+@media (max-width: 1920px) {
+    .calendar-header{
+        justify-content: space-evenly;
+    }
+    .day{
+        height: 1.5em;
+    }
+}

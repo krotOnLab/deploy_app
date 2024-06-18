@@ -81,17 +81,17 @@ class MiningData:
             sleep(self.random_sleep(2))
         except Exception as err:
             print(err)
-    def set_dates(self, end_data, start_data='01.02.2005'):
+    def set_dates(self, end_data, start_date='01.02.2005'):
         try:
             data_calender_start = self.browser.find_element(By.ID, 'calender_dload')
             data_calender_start.clear()
-            data_calender_start.send_keys(start_data)  # Очистить и ввести дату начала
-            sleep(self.random_sleep(3))
+            data_calender_start.send_keys(start_date)  # Очистить и ввести дату начала
+            sleep(self.random_sleep(1))
             data_calender_start.send_keys(Keys.ESCAPE)
             data_calender_end = self.browser.find_element(By.ID, 'calender_dload2')
             data_calender_end.clear()
             data_calender_end.send_keys(end_data)  # Очистить и ввести дату начала
-            sleep(self.random_sleep(3))
+            sleep(self.random_sleep(1))
             data_calender_end.send_keys(Keys.ESCAPE)
         except Exception as err:
             print(err)
@@ -146,29 +146,37 @@ def start_process():
         china_indexies_station = session.query(MeteostationInfo.index_meteostation).filter(MeteostationInfo.country=='Российская Федерация').all()
         session.commit()
 
+        pattern_ex = re.compile(r'\d{5}.*.utf8.0{8}.xls.gz')
+        directory = r"D:\data\raw"
+        filtered_files = [int(f[:5]) for f in os.listdir(directory) if pattern_ex.match(f)]
+        print(filtered_files)
         md = MiningData()
         sleep(md.random_sleep(mode=3))
         md.close_ad_vidget()
-        md.station_input(china_indexies_station[0])
+        md.station_input(filtered_files[0])
         md.go_archive(md.browser)
-        md.set_dates('09.06.2024')
+        md.set_dates('09.06.2024', start_date='01.01.2016')
         md.get_download_url()
         md.download_data_from_station()
-        existing_stations_index = [i[0] for i in existing_stations_index]
-        for index in china_indexies_station[1:]:
+        # existing_stations_index = [i[0] for i in existing_stations_index]
+
+
+
+        for index in filtered_files[1:]:
             # print(index)
             # print(not(index[0] in existing_stations_index))
-            if not(index[0] in existing_stations_index):
-                mode = md.station_input(index[0], seconds=20)
-                if mode == 'continue':
-                    print(index[0])
-                    skip_indexes.append(index[0])
-                    continue
-                md.get_download_url()
-                md.download_data_from_station()
-            else:
-                print(index[0])
-                skip_indexes.append(index[0])
+            # if not(index[0] in existing_stations_index):
+            mode = md.station_input(index, seconds=10)
+            if mode == 'continue':
+                print(index)
+                skip_indexes.append(index)
+                continue
+            md.set_dates('09.06.2024', start_date='01.01.2016')
+            md.get_download_url()
+            md.download_data_from_station()
+            # else:
+            #     print(index[0])
+            #     skip_indexes.append(index[0])
         md.browser.quit()
     # return 0
 
@@ -247,43 +255,47 @@ def get_indexes_meteostation(country):
 
 
 def data_transfer():
+    pattern_ex = re.compile(r'\d{5}.*.utf8.0{8}.xls.gz')
     pattern = re.compile(r'\d{5}.01.02.2005.*.utf8.0{8}.xls.gz')
     # Указываем путь к директории
-    directory = r"C:\Users\filos\Downloads"
-    dir = r"D:\data\new"
+    directory = r"D:\data\raw"
+    dir = r"D:\data\new_russia"
     # Получаем список файлов
     # Распаковка архива, преобразование файла .xls к .xlsx
-    filtered_files = [f for f in os.listdir(directory) if pattern.match(f)]
+    filtered_files = [f for f in os.listdir(directory) if pattern_ex.match(f)]
     os.chdir(dir)
     for name in filtered_files:
-        file = name[:len(name) - 3]
-        with gzip.open(directory + "\\" + name, 'rb') as file_in, open(dir + "\\" + file, 'wb') as file_out:
-            shutil.copyfileobj(file_in, file_out)
-        print(directory + "\\" + name)
-        # os.remove(directory + "\\" + name)
-        p.save_book_as(file_name=dir + "\\" + file, dest_file_name=dir + "\\" + file + 'x')
-        print(dir + "\\" + file)
-        os.remove(dir + "\\" + file)
-        wb = oxl.load_workbook(dir + "\\" + file + 'x')
-        wb['Архив Погоды rp5'].delete_rows(1, amount=5)
-        wb.save(dir + "\\" + file + 'x')
-        # Сохранение данных в csv формате из xlsx
-        data = pd.read_excel(dir + "\\" + file + 'x', 'Архив Погоды rp5', index_col=None)
-        print(dir + "\\" + file + 'x')
-        os.remove(dir + "\\" + file + 'x')
-        # data.to_csv(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8', sep='|', index=False, header=False)
-        data.to_csv(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8', sep='|', index=False, header=False)
-        with open(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8') as old, open(dir + "\\" + file[:5] + '.csv', 'w', encoding='utf-8') as new:
-            lines = old.readlines()
-            new_lines = []
-            new_lines.append('station_index|date_time|T|Tn|Tx'+'\n')
-            for line in lines[1:]:
-                line = line.split('|')
-                new_lines.append(name[:5] + '|' + line[0] + '|' + line[1] + '|' + line[14] + '|' + line[15] + '\n')
-                # new_lines.append(name[:5] + '|' + line.replace('"', "'"))
-            new.writelines(new_lines)
-        print(dir + "\\" + file[:len(file) - 5] + '.csv')
-        os.remove(dir + "\\" + file[:len(file) - 5] + '.csv')
+        try:
+            file = name[:len(name) - 3]
+            with gzip.open(directory + "\\" + name, 'rb') as file_in, open(dir + "\\" + file, 'wb') as file_out:
+                shutil.copyfileobj(file_in, file_out)
+            print(directory + "\\" + name)
+            # os.remove(directory + "\\" + name)
+            p.save_book_as(file_name=dir + "\\" + file, dest_file_name=dir + "\\" + file + 'x')
+            print(dir + "\\" + file)
+            os.remove(dir + "\\" + file)
+            wb = oxl.load_workbook(dir + "\\" + file + 'x')
+            wb['Архив Погоды rp5'].delete_rows(1, amount=5)
+            wb.save(dir + "\\" + file + 'x')
+            # Сохранение данных в csv формате из xlsx
+            data = pd.read_excel(dir + "\\" + file + 'x', 'Архив Погоды rp5', index_col=None)
+            print(dir + "\\" + file + 'x')
+            os.remove(dir + "\\" + file + 'x')
+            # data.to_csv(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8', sep='|', index=False, header=False)
+            data.to_csv(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8', sep='|', index=False, header=False)
+            with open(dir + "\\" + file[:len(file) - 5] + '.csv', encoding='utf-8') as old, open(dir + "\\" + file[:5] + '.csv', 'w', encoding='utf-8') as new:
+                lines = old.readlines()
+                new_lines = []
+                new_lines.append('station_index|date_time|T|Tn|Tx'+'\n')
+                for line in lines[1:]:
+                    line = line.split('|')
+                    new_lines.append(name[:5] + '|' + line[0] + '|' + line[1] + '|' + line[14] + '|' + line[15] + '\n')
+                    # new_lines.append(name[:5] + '|' + line.replace('"', "'"))
+                new.writelines(new_lines)
+            print(dir + "\\" + file[:len(file) - 5] + '.csv')
+            os.remove(dir + "\\" + file[:len(file) - 5] + '.csv')
+        except Exception as e:
+            print(e)
 
 
 
@@ -728,10 +740,11 @@ def get_china_names():
 
 
 if __name__ == '__main__':
+    # start_process()
     # average_data()
     # get_china_names()
-    start_process()
-
+    # start_process()
+    data_transfer()
     # pattern = re.compile(r'\d{5}.*.utf8.0{8}.xls.gz')
     # # Указываем путь к директории
     # directory = r"C:\Users\filos\Downloads"
@@ -754,8 +767,9 @@ if __name__ == '__main__':
     #             '59501', '59559', '59567', '59632', '59644', '59658', '59663', '59673', '59758', '59792', '59838',
     #             '59845', '59855', '59948', '59981', '59985']
     #
-    #
-    # # filtered_files = [int(f[:5]) for f in os.listdir(directory) if pattern.match(f)]
+    # #
+    # filtered_files = [int(f[:5]) for f in os.listdir(directory) if pattern.match(f)]
+    # print(filtered_files)
     # stations = [int(i) for i in stations]
     # try:
         # skip_indexes = []

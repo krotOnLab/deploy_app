@@ -87,6 +87,11 @@ class MeteostationInfo(Base):
     HSL = Column(Integer, nullable=False)
     country = Column(Text, nullable=False)
 
+class Pars(Base):
+    __tablename__ = 'pars'
+    cur_user = Column(Text, primary_key=True)
+    cur_trip = Column(Text)
+    base_params = Column(JSON)
 
 Base.metadata.create_all(engine)
 engine.dispose()

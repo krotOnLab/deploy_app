@@ -309,3 +309,37 @@ img {
   height: auto;
   vertical-align: baseline;
 }
+
+
+@media (max-width: 768px) {
+
+}
+@media (max-width: 1920px) {
+  .wrapper {
+        width: 900px;
+      flex-wrap: wrap;
+      position: absolute;
+      left: 25%;
+  }
+    .type_trip{
+        height: 6em;
+        width: 8em;
+        font-size: 20pt;
+        margin: 0;
+    }
+    .inline_settings{
+        justify-content: space-evenly;
+    }
+    #new_trip{
+        font-size: 20pt;
+        width: 50%;
+    }
+    .settings{
+        font-size: 15pt;
+    }
+    #suggestions{
+        top:2em;
+        width: 70%;
+    }
+
+}
